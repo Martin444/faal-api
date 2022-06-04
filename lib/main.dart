@@ -1,3 +1,4 @@
+import 'package:faal/controllers/products_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put<ProductsController>(ProductsController());
+
     return const GetMaterialApp(
       title: 'F.A.A.L',
       debugShowCheckedModeBanner: false,
