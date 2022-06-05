@@ -9,14 +9,14 @@ import '../Models/product_model.dart';
 class ProductsController extends GetxController {
   var baseUrl = ApiService().baseUrl;
 
-  var isLoadingInit = false;
+  var isLoadingInit = true;
 
   var promotionsList = <ProductModel>[];
   var productsList = <ProductModel>[];
 
   var modelp = ProductModel();
 
-  void getProductsPage() async {
+  Future<List<ProductModel>> getProductsPage() async {
     var response = await ProductServices().getProducts(page: 1);
     var jsonResponse = jsonDecode(response.body);
 
@@ -43,15 +43,18 @@ class ProductsController extends GetxController {
           update();
         }
       }
+      return productsList;
     } else {
       printError(info: '${response.statusCode}');
+      throw Exception('Failed to load products');
     }
   }
 
-  void getPromotionsProducts() async {
+  Future<List<ProductModel>> getPromotionsProducts() async {
     var response = await ProductServices().getPromotions();
     var jsonResponse = jsonDecode(response.body);
-
+    isLoadingInit = true;
+    update();
     if (response.statusCode == 200) {
       var products = jsonResponse;
       for (var i in products) {
@@ -71,21 +74,22 @@ class ProductsController extends GetxController {
                   : i['images'],
             ),
           );
-
           update();
         }
       }
+      isLoadingInit = false;
+      update();
+      return promotionsList;
     } else {
       printError(info: '${response.statusCode}');
+      isLoadingInit = false;
+      update();
+      throw Exception('Failed to load promotions');
     }
   }
 
-  void getInitProducts() {
-    isLoadingInit = true;
-    update();
-    getProductsPage();
-    getPromotionsProducts();
-    isLoadingInit = false;
-    update();
+  void getInitProducts() async {
+    await getProductsPage();
+    await getPromotionsProducts();
   }
 }

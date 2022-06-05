@@ -4,6 +4,7 @@ class ProductModel {
   String? price;
   String? regularPrice;
   String? salePrice;
+  int? quantity;
   List<dynamic>? categories;
   List<dynamic>? images;
 
@@ -28,6 +29,7 @@ class ProductModel {
     this.regularPrice,
     this.salePrice,
     this.categories,
+    this.quantity,
     this.images,
   });
 }

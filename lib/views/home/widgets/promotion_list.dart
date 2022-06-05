@@ -1,5 +1,6 @@
 import 'package:faal/controllers/products_controller.dart';
 import 'package:faal/utils/colors.dart';
+import 'package:faal/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -27,8 +28,8 @@ class _PromotionListState extends State<PromotionList> {
   void initState() {
     super.initState();
     controller = PageController(
-      initialPage: productsController.promotionsList.length - 1,
-      keepPage: true,
+      initialPage: 0,
+      keepPage: false,
       // viewportFraction: 0.9,
     );
   }
@@ -48,8 +49,11 @@ class _PromotionListState extends State<PromotionList> {
                 physics: const BouncingScrollPhysics(),
                 controller: controller,
                 itemBuilder: (context, index) {
-                  return PromotionTile(
-                    product: _.promotionsList[index],
+                  return DelayedReveal(
+                    delay: const Duration(milliseconds: 200),
+                    child: PromotionTile(
+                      product: _.promotionsList[index],
+                    ),
                   );
                 },
               ),
