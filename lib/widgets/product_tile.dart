@@ -82,7 +82,7 @@ class ProductTile extends StatelessWidget {
                     Text(
                       product.price!.length > 7
                           ? '\$ ${product.price!.replaceAll('.', ',').replaceRange(7, null, '')}'
-                          : product.price!,
+                          : '\$ ${product.price!}',
                       style: priceProduct,
                     ),
                   ],

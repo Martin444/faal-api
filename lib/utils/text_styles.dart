@@ -1,6 +1,13 @@
 import 'package:faal/utils/colors.dart';
 import 'package:flutter/material.dart';
 
+var titleAppBar = TextStyle(
+  color: kTextColor,
+  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Barlow',
+);
+
 var buttonStylePrimary = TextStyle(
   color: kTextColor,
   fontSize: 16,
@@ -73,6 +80,29 @@ var titleDetail = TextStyle(
 var priceDetail = TextStyle(
   fontSize: 21,
   fontWeight: FontWeight.w700,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+// CART
+
+var subtitleCart = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceCartItem = TextStyle(
+  fontSize: 19,
+  fontWeight: FontWeight.w800,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceTotalItems = TextStyle(
+  fontSize: 23,
+  fontWeight: FontWeight.w900,
   fontFamily: 'Inter',
   color: kTextColor,
 );

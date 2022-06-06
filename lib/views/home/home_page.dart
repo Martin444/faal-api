@@ -2,6 +2,7 @@ import 'package:faal/controllers/cart_list_controller.dart';
 import 'package:faal/controllers/products_controller.dart';
 import 'package:faal/controllers/scroll_controllers.dart';
 import 'package:faal/utils/colors.dart';
+import 'package:faal/views/cartlist/cart_list_page.dart';
 import 'package:faal/views/home/widgets/products_list.dart';
 import 'package:faal/views/responses/wait_page.dart';
 import 'package:flutter/material.dart';
@@ -45,30 +46,37 @@ class _HomePageState extends State<HomePage> {
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: GetBuilder<CartListController>(
               builder: (c) {
-                return Stack(
-                  alignment: const Alignment(0.9, -1.3),
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: kYellow,
-                      child: SvgPicture.asset(
-                        'assets/cart.svg',
-                        height: 30,
-                      ),
+                return GestureDetector(
+                  onTap: () => {
+                    Get.to(
+                      () => const CartListPage(),
                     ),
-                    CircleAvatar(
-                      radius: 12,
-                      backgroundColor: kredcolor,
-                      child: Text(
-                        '${c.listCart!.length}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: kBackground,
-                          fontWeight: FontWeight.w500,
+                  },
+                  child: Stack(
+                    alignment: const Alignment(0.9, -1.3),
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: kYellow,
+                        child: SvgPicture.asset(
+                          'assets/cart.svg',
+                          height: 30,
                         ),
                       ),
-                    )
-                  ],
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundColor: kredcolor,
+                        child: Text(
+                          '${c.listCart!.length}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: kBackground,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             ),

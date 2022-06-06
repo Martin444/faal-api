@@ -15,7 +15,7 @@ class ListCarts extends StatelessWidget {
     return GetBuilder<CartListController>(
       builder: (_) {
         return SizedBox(
-          height: Get.height - 260,
+          height: Get.height * 0.7,
           child: ListView.builder(
               itemCount: _.listCart!.length,
               physics: const BouncingScrollPhysics(),

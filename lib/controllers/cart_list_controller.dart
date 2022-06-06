@@ -1,17 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 
 import '../Models/product_model.dart';
-import '../views/cartlist/cart_list_page.dart';
 import 'products_controller.dart';
 
 class CartListController extends GetxController {
   List<ProductModel>? listCart = [];
-  int totalPrice = 0;
+  double totalPrice = 0.0;
 
   var products = Get.find<ProductsController>();
 
@@ -34,8 +30,10 @@ class CartListController extends GetxController {
 
         Get.back();
       }
+      getTotalPrice();
     } catch (e) {
       printError(info: e.toString());
+      throw Exception('Error al selccionar el producto: $e');
     }
   }
 
@@ -82,41 +80,36 @@ class CartListController extends GetxController {
   // }
 
 // // para productos sin condigo de barra
-//   removeItemQuantityProduct(ProductsModel prod) {
-//     try {
-//       var exist = listCart!.indexWhere((element) => element.id == prod.id);
-//       if (exist != -1) {
-//         var newQuantity = int.parse(listCart![exist].quantity!) - 1;
+  removeItemQuantityProduct(ProductModel prod) {
+    try {
+      var exist = listCart!.indexWhere((element) => element.id == prod.id);
+      if (exist != -1) {
+        var newQuantity = listCart![exist].quantity! - 1;
 
-//         if (newQuantity > 0) {
-//           var newProd = ProductsModel(
-//             id: prod.id,
-//             name: prod.name,
-//             brand: prod.brand,
-//             contNeto: prod.contNeto,
-//             unity: prod.unity,
-//             image: prod.image,
-//             image64: prod.image64,
-//             price: prod.price,
-//             barcode: prod.barcode,
-//             quantity: '$newQuantity',
-//             limit: prod.limit,
-//             alarm: prod.alarm,
-//           );
+        if (newQuantity > 0) {
+          var newProd = ProductModel(
+            id: prod.id,
+            name: prod.name,
+            images: prod.images,
+            price: double.parse(
+              prod.price!.replaceRange(7, null, ''),
+            ).toString(),
+            quantity: newQuantity,
+          );
 
-//           listCart![exist] = newProd;
-//           update();
-//           getTotalPrice();
-//         } else {
-//           listCart!.removeWhere((element) => element.id == prod.id);
-//           getTotalPrice();
-//           update();
-//         }
-//       }
-//     } catch (e) {
-//       printError(info: e.toString());
-//     }
-//   }
+          listCart![exist] = newProd;
+          update();
+          getTotalPrice();
+        } else {
+          listCart!.removeWhere((element) => element.id == prod.id);
+          getTotalPrice();
+          update();
+        }
+      }
+    } catch (e) {
+      printError(info: e.toString());
+    }
+  }
 
   addItemQuantityProduct(ProductModel prod) {
     try {
@@ -126,39 +119,33 @@ class CartListController extends GetxController {
         update();
 
         // var quantyAlarm = listCart![exist].limit! - newQuantity;
-        if (true) {
-          // if (quantyAlarm == prod.alarm) {
-          //   Get.dialog(
-          //     AlarmProduct(
-          //       limit: quantyAlarm,
-          //       nameProduct: prod.name,
-          //     ),
-          //     barrierDismissible: false,
-          //   );
-          // }
 
-          var newProd = ProductModel(
-            id: prod.id,
-            name: prod.name,
-            price: prod.price.toString(),
-            quantity: newQuantity,
-          );
+        var newProd = ProductModel(
+          id: prod.id,
+          name: prod.name,
+          images: prod.images,
+          price: double.parse(prod.price!.replaceRange(7, null, '')).toString(),
+          quantity: newQuantity,
+        );
 
-          listCart![exist] = newProd;
-          // getTotalPrice();
-          update();
-        }
+        listCart![exist] = newProd;
+        getTotalPrice();
+        update();
       }
     } catch (e) {
       printError(info: e.toString());
+      throw Exception('Error al agregar producto');
     }
   }
 
   addInCartWithOutBarcode(ProductModel prod, int quantity) {
+    printInfo(
+        info: double.parse(prod.price!.replaceRange(7, null, '')).toString());
     var newProd = ProductModel(
       id: prod.id,
       name: prod.name,
-      price: prod.price,
+      images: prod.images,
+      price: double.parse(prod.price!.replaceRange(7, null, '')).toString(),
       quantity: quantity,
     );
 
@@ -277,13 +264,14 @@ class CartListController extends GetxController {
   //     printError(info: e.toString());
   //   }
 
-  // getTotalPrice() {
-  //   totalPrice = 0;
-  //   for (var e in listCart!) {
-  //     totalPrice += int.parse(e.price!) * int.parse(e.quantity!);
-  //   }
-  //   update();
-  // }
+  getTotalPrice() {
+    totalPrice = 0.0;
+    for (var e in listCart!) {
+      totalPrice +=
+          double.parse(e.price!.replaceRange(7, null, '')) * e.quantity!;
+    }
+    update();
+  }
 
   // Controlladores de venta
   String? _nameSeller = 'Vendedor 1';
