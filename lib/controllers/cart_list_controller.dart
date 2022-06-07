@@ -40,7 +40,6 @@ class CartListController extends GetxController {
   // validateExistProductInList(ProductModel prod) {
   //   try {
   //     var exist = listCart!.indexWhere((element) => element.id == prod.id);
-
   //     if (exist == -1) {
   //       printInfo(info: exist.toString());
   //       addInCartWithOutBarcode(prod, 1);
@@ -50,7 +49,6 @@ class CartListController extends GetxController {
   //       );
   //     } else {
   //       addItemQuantityProduct(prod);
-
   //       Get.to(
   //         () => const CartListPage(),
   //         transition: Transition.leftToRight,
@@ -65,7 +63,6 @@ class CartListController extends GetxController {
   //   printInfo(info: code.toString());
   //   try {
   //     var exist = listCart!.indexWhere((element) => element.id == prod.id);
-
   //     if (exist != -1) {
   //       listCart![exist].stock!.remove(code);
   //       listCart![exist].quantity = listCart![exist].stock!.length.toString();
@@ -181,7 +178,6 @@ class CartListController extends GetxController {
   //         false,
   //         ScanMode.BARCODE,
   //       ));
-
   //       if (barcodeScanRes != -1) {
   //         for (var e in products.myProducts) {
   //           var search = e.stock!.contains(barcodeScanRes);
@@ -203,14 +199,12 @@ class CartListController extends GetxController {
   //                 quantity: quantity.toString(),
   //                 stock: [barcodeScanRes],
   //               );
-
   //               listCart!.add(newProd);
   //               getTotalPrice();
   //               update();
   //             } else {
   //               var barcodeExist =
   //                   listCart![exist].stock!.contains(barcodeScanRes);
-
   //               if (barcodeExist) {
   //                 // addItemQuantityProduct(e);
   //                 resultado = '-1';
@@ -265,12 +259,17 @@ class CartListController extends GetxController {
   //   }
 
   getTotalPrice() {
-    totalPrice = 0.0;
-    for (var e in listCart!) {
-      totalPrice +=
-          double.parse(e.price!.replaceRange(7, null, '')) * e.quantity!;
+    try {
+      totalPrice = 0.0;
+      for (var e in listCart!) {
+        totalPrice +=
+            double.parse(e.price!.replaceRange(7, null, '')) * e.quantity!;
+      }
+      update();
+    } catch (e) {
+      printError(info: e.toString());
+      throw Exception('Error al sumar el precio $e');
     }
-    update();
   }
 
   // Controlladores de venta

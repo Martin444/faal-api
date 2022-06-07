@@ -63,7 +63,7 @@ class ProductsController extends GetxController {
             ProductModel(
               id: i['id'],
               name: i['name'],
-              price: i['price'],
+              price: double.parse(i['price']).toString(),
               regularPrice: i['regular_price'],
               salePrice: i['sale_price'],
               categories: i['categories'],

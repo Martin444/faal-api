@@ -1,4 +1,5 @@
 import 'package:faal/Models/product_model.dart';
+import 'package:faal/controllers/cart_list_controller.dart';
 import 'package:faal/widgets/button_primary_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -50,117 +51,124 @@ class _DetailModalState extends State<DetailModal> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: Dialog(
-        insetAnimationDuration: Duration(milliseconds: 500),
-        insetAnimationCurve: Curves.easeOutCubic,
-        insetPadding: const EdgeInsets.all(20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        // color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: const Alignment(0.95, -0.9),
+    return GetBuilder<CartListController>(
+      builder: (_) {
+        return WillPopScope(
+          onWillPop: () async => true,
+          child: Dialog(
+            insetAnimationDuration: Duration(milliseconds: 500),
+            insetAnimationCurve: Curves.easeOutCubic,
+            insetPadding: const EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            // color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Stack(
+                  alignment: const Alignment(0.95, -0.9),
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(widget.product.images![0]),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(widget.product.images![0]),
+                        ),
+                        // const Divider(
+                        //   height: 25,
+                        //   thickness: 2,
+                        // ),
+                        const SizedBox(height: 5),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // const SizedBox(height: 30),
+                              DelayedReveal(
+                                delay: const Duration(milliseconds: 100),
+                                child: Text(
+                                  widget.product.name ?? '',
+                                  textAlign: TextAlign.left,
+                                  style: titleDetail,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              DelayedReveal(
+                                delay: const Duration(milliseconds: 100),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        widget.product.price!.length > 7
+                                            ? '\$ ${widget.product.price!.replaceAll('.', ',').replaceRange(7, null, '')}'
+                                            : '\$ ${widget.product.price!}'
+                                                .replaceAll('.', ','),
+                                        textAlign: TextAlign.left,
+                                        style: priceDetail,
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: ButtonPrimaryIcon(
+                                        title: 'COMPARTIR',
+                                        path: 'assets/share.svg',
+                                        onPressed: () {},
+                                        load: false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              DelayedReveal(
+                                delay: const Duration(milliseconds: 100),
+                                child: ButtonPrimaryIcon(
+                                  title: 'AGREGAR AL CARRITO',
+                                  path: 'assets/cart.svg',
+                                  onPressed: () {
+                                    _.selectExistProductInList(widget.product);
+                                  },
+                                  load: false,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    // const Divider(
-                    //   height: 25,
-                    //   thickness: 2,
-                    // ),
-                    const SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // const SizedBox(height: 30),
-                          DelayedReveal(
-                            delay: const Duration(milliseconds: 100),
-                            child: Text(
-                              widget.product.name ?? '',
-                              textAlign: TextAlign.left,
-                              style: titleDetail,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          DelayedReveal(
-                            delay: const Duration(milliseconds: 100),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    widget.product.price!.length > 7
-                                        ? '\$ ${widget.product.price!.replaceAll('.', ',').replaceRange(7, null, '')}'
-                                        : '\$ ${widget.product.price!}'
-                                            .replaceAll('.', ','),
-                                    textAlign: TextAlign.left,
-                                    style: priceDetail,
-                                  ),
-                                ),
-                                Flexible(
-                                  child: ButtonPrimaryIcon(
-                                    title: 'COMPARTIR',
-                                    path: 'assets/share.svg',
-                                    onPressed: () {},
-                                    load: false,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          DelayedReveal(
-                            delay: const Duration(milliseconds: 100),
-                            child: ButtonPrimaryIcon(
-                              title: 'AGREGAR AL CARRITO',
-                              path: 'assets/cart.svg',
-                              onPressed: () {},
-                              load: false,
-                            ),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFc2c2c2).withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/close.svg',
+                          height: 35,
+                          width: 35,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFc2c2c2).withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/close.svg',
-                      height: 35,
-                      width: 35,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

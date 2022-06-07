@@ -8,7 +8,7 @@ class ScrollControllers extends GetxController {
 
   scrollListenHome(ScrollController scrollController) {
     if (scrollController.position.pixels > 10) {
-      // printInfo(info: scrollController.position.pixels.toString());
+      printInfo(info: scrollController.offset.toString());
 
       scrollUpHome = false;
       scrollControllerHome!.animateTo(
