@@ -43,7 +43,11 @@ class PromotionTile extends StatelessWidget {
                     width: 150,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(product.images![0]),
+                        image: FadeInImage.assetNetwork(
+                          placeholder: 'assets/placeholder.jpg',
+                          image: product.images![0],
+                          fit: BoxFit.cover,
+                        ).image,
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(10),

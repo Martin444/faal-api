@@ -48,7 +48,9 @@ class ProductTile extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Text(
-                            '${product.categories!.join(', ').substring(0, 15)}...',
+                            product.categories!.join(', ').length > 9
+                                ? '${product.categories!.join(', ').substring(0, 12)}...'
+                                : product.categories!.join(', '),
                             style: tagProduct,
                           ),
                         ),
@@ -58,7 +60,12 @@ class ProductTile extends StatelessWidget {
                       height: 170,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(product.images![0]),
+                          image: FadeInImage.assetNetwork(
+                            placeholder: 'assets/placeholder.jpg',
+                            image: product.images![0],
+                            fit: BoxFit.cover,
+                          ).image,
+                          // image: NetworkImage(product.images![0]),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -67,8 +74,8 @@ class ProductTile extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
-                        product.name!.length > 20
-                            ? '${product.name!.substring(0, 20)}...'
+                        product.name!.length > 13
+                            ? '${product.name!.substring(0, 16)}...'
                             : product.name!,
                         style: titleProduct,
                       ),

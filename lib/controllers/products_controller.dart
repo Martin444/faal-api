@@ -10,14 +10,22 @@ class ProductsController extends GetxController {
   var baseUrl = ApiService().baseUrl;
 
   var isLoadingInit = true;
+  var isLoadingMoreProd = false;
+
+  bool? get isLoadingMoreProduct => isLoadingMoreProd;
+
+  void setIsLoading(bool value) {
+    isLoadingMoreProd = value;
+    update();
+  }
 
   var promotionsList = <ProductModel>[];
   var productsList = <ProductModel>[];
 
   var modelp = ProductModel();
 
-  Future<List<ProductModel>> getProductsPage() async {
-    var response = await ProductServices().getProducts(page: 1);
+  Future<List<ProductModel>> getProductsPage(int? page) async {
+    var response = await ProductServices().getProducts(page: page);
     var jsonResponse = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
@@ -28,8 +36,12 @@ class ProductsController extends GetxController {
             ProductModel(
               id: i['id'],
               name: i['name'],
-              price: i['price'],
-              regularPrice: i['regular_price'],
+              price: i['price'].toString().isEmpty
+                  ? i['price']
+                  : double.parse(i['price']).toStringAsFixed(2),
+              regularPrice: i['price'].toString().isEmpty
+                  ? i['price']
+                  : double.parse(i['regular_price']).toStringAsFixed(2),
               salePrice: i['sale_price'],
               categories: i['categories'],
               images: i['images'].length == 0
@@ -39,7 +51,6 @@ class ProductsController extends GetxController {
                   : i['images'],
             ),
           );
-
           update();
         }
       }
@@ -63,7 +74,7 @@ class ProductsController extends GetxController {
             ProductModel(
               id: i['id'],
               name: i['name'],
-              price: double.parse(i['price']).toString(),
+              price: double.parse(i['price']).toStringAsFixed(2),
               regularPrice: i['regular_price'],
               salePrice: i['sale_price'],
               categories: i['categories'],
@@ -88,8 +99,8 @@ class ProductsController extends GetxController {
     }
   }
 
-  void getInitProducts() async {
-    await getProductsPage();
+  void getInitProducts(int? page) async {
+    await getProductsPage(page);
     await getPromotionsProducts();
   }
 }

@@ -27,7 +27,6 @@ class CartListController extends GetxController {
         Get.back();
       } else {
         addItemQuantityProduct(prod);
-
         Get.back();
       }
       getTotalPrice();
@@ -121,7 +120,7 @@ class CartListController extends GetxController {
           id: prod.id,
           name: prod.name,
           images: prod.images,
-          price: double.parse(prod.price!.replaceRange(7, null, '')).toString(),
+          price: double.parse(prod.price!).toStringAsFixed(2),
           quantity: newQuantity,
         );
 
@@ -136,13 +135,11 @@ class CartListController extends GetxController {
   }
 
   addInCartWithOutBarcode(ProductModel prod, int quantity) {
-    printInfo(
-        info: double.parse(prod.price!.replaceRange(7, null, '')).toString());
     var newProd = ProductModel(
       id: prod.id,
       name: prod.name,
       images: prod.images,
-      price: double.parse(prod.price!.replaceRange(7, null, '')).toString(),
+      price: double.parse(prod.price!).toStringAsFixed(2),
       quantity: quantity,
     );
 

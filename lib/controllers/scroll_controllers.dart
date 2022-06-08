@@ -1,3 +1,4 @@
+import 'package:faal/controllers/products_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -6,11 +7,12 @@ class ScrollControllers extends GetxController {
 
   bool scrollUpHome = false;
 
-  scrollListenHome(ScrollController scrollController) {
-    if (scrollController.position.pixels > 10) {
-      printInfo(info: scrollController.offset.toString());
+  var prodService = Get.find<ProductsController>();
 
-      scrollUpHome = false;
+  int page = 2;
+
+  scrollListenHome(ScrollController scrollController) async {
+    if (scrollController.position.pixels > 10) {
       scrollControllerHome!.animateTo(
         300,
         duration: const Duration(milliseconds: 100),
@@ -23,10 +25,17 @@ class ScrollControllers extends GetxController {
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
       );
-      // if (!scrollUpHome) {
-      //   scrollUpHome = true;
-      //   update();
-      // }
+    }
+
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent) {
+      if (!prodService.isLoadingInit) {
+        prodService.setIsLoading(true);
+        await prodService.getProductsPage(page);
+        page++;
+        prodService.setIsLoading(false);
+        update();
+      }
     }
   }
 }

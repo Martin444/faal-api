@@ -1,6 +1,7 @@
 import 'package:faal/controllers/cart_list_controller.dart';
 import 'package:faal/controllers/products_controller.dart';
 import 'package:faal/controllers/scroll_controllers.dart';
+import 'package:faal/controllers/search_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
     Get.put<ScrollControllers>(ScrollControllers());
 
     Get.put<CartListController>(CartListController());
+
+    Get.put<SearchController>(SearchController());
 
     return const GetMaterialApp(
       title: 'F.A.A.L',

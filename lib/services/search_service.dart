@@ -6,7 +6,7 @@ class SearchService {
 
   Future<http.Response> getSearch(String query) async {
     try {
-      var url = Uri.parse(baseUrl + '/search/$query');
+      var url = Uri.parse('$baseUrl/products/search/$query');
       final response = await http.post(url);
       return response;
     } catch (e) {
