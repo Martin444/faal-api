@@ -130,6 +130,7 @@ class CartTile extends StatelessWidget {
                                   child: TextButton(
                                     onPressed: () {
                                       // _.clearList();
+                                      _.removeProductInList(product);
                                     },
                                     child: SvgPicture.asset(
                                       'assets/trash.svg',

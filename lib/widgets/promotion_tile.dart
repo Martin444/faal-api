@@ -39,20 +39,28 @@ class PromotionTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 150,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: FadeInImage.assetNetwork(
-                          placeholder: 'assets/placeholder.jpg',
-                          image: product.images![0],
-                          fit: BoxFit.cover,
-                        ).image,
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  // Center(
+                  //   child:
+                  // ),
+                  FadeInImage.assetNetwork(
+                    placeholder: 'assets/placeholder.jpg',
+                    image: product.images![0],
+                    fit: BoxFit.cover,
                   ),
+                  // Container(
+                  //   width: 150,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: FadeInImage.assetNetwork(
+                  //         placeholder: 'assets/placeholder.jpg',
+                  //         image: product.images![0],
+                  //         fit: BoxFit.cover,
+                  //       ).image,
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  // ),
                   Flexible(
                     child: Container(
                       padding: const EdgeInsets.all(10),

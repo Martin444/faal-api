@@ -48,12 +48,12 @@ class SearchController extends GetxController {
 
   void search(String text) async {
     if (text.length >= 3) {
-      searching = true;
       try {
+        listResult = [];
+        searching = true;
+        update();
         var resultSearch = await searchService.getSearch(text);
         var jsonResponse = jsonDecode(resultSearch.body);
-        listResult = [];
-        update();
         if (resultSearch.statusCode == 201) {
           var products = jsonResponse;
           for (var i in products) {

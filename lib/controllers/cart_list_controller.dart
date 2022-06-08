@@ -36,6 +36,21 @@ class CartListController extends GetxController {
     }
   }
 
+  removeProductInList(ProductModel prod) {
+    try {
+      var exist = listCart!.indexWhere((element) => element.id == prod.id);
+
+      if (exist != -1) {
+        listCart!.removeAt(exist);
+        getTotalPrice();
+        update();
+      }
+    } catch (e) {
+      printError(info: e.toString());
+      throw Exception('Error al selccionar el producto: $e');
+    }
+  }
+
   // validateExistProductInList(ProductModel prod) {
   //   try {
   //     var exist = listCart!.indexWhere((element) => element.id == prod.id);
@@ -259,8 +274,7 @@ class CartListController extends GetxController {
     try {
       totalPrice = 0.0;
       for (var e in listCart!) {
-        totalPrice +=
-            double.parse(e.price!.replaceRange(7, null, '')) * e.quantity!;
+        totalPrice += double.parse(e.price!) * e.quantity!;
       }
       update();
     } catch (e) {

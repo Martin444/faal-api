@@ -156,8 +156,8 @@ class _CartListPageState extends State<CartListPage> {
                                     ),
                                     Text(
                                       _.totalPrice.toString().length > 4
-                                          ? '\$ ${_.totalPrice.toString().replaceAll('.', ',').replaceRange(7, null, '')}'
-                                          : '\$ ${_.totalPrice.toString().replaceAll('.', ',')}',
+                                          ? '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}'
+                                          : '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}',
                                       style: priceTotalItems,
                                     ),
                                   ],

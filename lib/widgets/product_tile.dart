@@ -48,7 +48,7 @@ class ProductTile extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Text(
-                            product.categories!.join(', ').length > 9
+                            product.categories!.join(', ').length > 10
                                 ? '${product.categories!.join(', ').substring(0, 12)}...'
                                 : product.categories!.join(', '),
                             style: tagProduct,
@@ -56,21 +56,27 @@ class ProductTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
+                    FadeInImage.assetNetwork(
                       height: 170,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FadeInImage.assetNetwork(
-                            placeholder: 'assets/placeholder.jpg',
-                            image: product.images![0],
-                            fit: BoxFit.cover,
-                          ).image,
-                          // image: NetworkImage(product.images![0]),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      placeholder: 'assets/placeholder.jpg',
+                      image: product.images![0],
+                      fit: BoxFit.cover,
                     ),
+                    // Container(
+                    //   height: 170,
+                    //   decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //       image: FadeInImage.assetNetwork(
+                    //         placeholder: 'assets/placeholder.jpg',
+                    //         image: product.images![0],
+                    //         fit: BoxFit.cover,
+                    //       ).image,
+                    //       // image: NetworkImage(product.images![0]),
+                    //       fit: BoxFit.cover,
+                    //     ),
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    // ),
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
