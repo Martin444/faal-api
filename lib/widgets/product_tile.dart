@@ -1,6 +1,8 @@
 import 'package:faal/Models/product_model.dart';
 import 'package:faal/controllers/cart_list_controller.dart';
+import 'package:faal/helps/capitalize.dart';
 import 'package:faal/helps/modals.dart';
+import 'package:faal/helps/rules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,9 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var helpCap = Capitalization();
+    var helpRules = RulesFunctions();
+
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
@@ -57,31 +62,17 @@ class ProductTile extends StatelessWidget {
                       ],
                     ),
                     FadeInImage.assetNetwork(
-                      height: 170,
+                      height: 130,
+                      width: 190,
                       placeholder: 'assets/placeholder.jpg',
                       image: product.images![0],
                       fit: BoxFit.cover,
                     ),
-                    // Container(
-                    //   height: 170,
-                    //   decoration: BoxDecoration(
-                    //     image: DecorationImage(
-                    //       image: FadeInImage.assetNetwork(
-                    //         placeholder: 'assets/placeholder.jpg',
-                    //         image: product.images![0],
-                    //         fit: BoxFit.cover,
-                    //       ).image,
-                    //       // image: NetworkImage(product.images![0]),
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    // ),
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
-                        product.name!.length > 13
-                            ? '${product.name!.substring(0, 16)}...'
+                        product.name!.length > 16
+                            ? '${helpCap.capitalizarPrimeraLetra(product.name)!.substring(0, 16)}...'
                             : product.name!,
                         style: titleProduct,
                       ),
@@ -92,12 +83,26 @@ class ProductTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      product.price!.length > 7
-                          ? '\$ ${product.price!.replaceAll('.', ',').replaceRange(7, null, '')}'
-                          : '\$ ${product.price!}',
-                      style: priceProduct,
-                    ),
+                    helpRules.isValidDescont(product)
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '\$${product.price!.replaceAll('.', ',')}',
+                                style: priceDescontProduct,
+                              ),
+                              Text(
+                                '\$${double.parse(product.salePrice!).toStringAsFixed(2).replaceAll('.', ',')}',
+                                style: priceProduct,
+                              ),
+                            ],
+                          )
+                        : Text(
+                            product.price!.length > 7
+                                ? '\$ ${product.price!.replaceAll('.', ',').replaceRange(7, null, '')}'
+                                : '\$ ${product.price!}',
+                            style: priceProduct,
+                          ),
                   ],
                 ),
               ],
@@ -113,21 +118,30 @@ class ProductTile extends StatelessWidget {
               child: _.validatinExistInList(product)
                   ? Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: kYellow,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12)),
+                        vertical: 10,
+                        horizontal: 10,
                       ),
-                      child: SvgPicture.asset('assets/plus.svg'),
+                      decoration: BoxDecoration(
+                        color: kredDesensa,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                        ),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/plus.svg',
+                        color: Colors.white,
+                      ),
                     )
                   : Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: kgreenSucces,
                         borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12)),
+                          topLeft: Radius.circular(12),
+                        ),
                       ),
                       child: SvgPicture.asset('assets/check.svg'),
                     ),

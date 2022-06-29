@@ -75,7 +75,7 @@ class PromotionTile extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: kYellow,
+                    color: kredDesensa,
                     borderRadius: BorderRadius.circular(5),
                     boxShadow: [
                       BoxShadow(

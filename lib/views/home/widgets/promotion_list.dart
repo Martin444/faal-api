@@ -64,14 +64,13 @@ class _PromotionListState extends State<PromotionList> {
               effect: WormEffect(
                 dotHeight: 10,
                 dotWidth: 10,
-                activeDotColor: kYellow,
+                activeDotColor: kredDesensa,
                 dotColor: const Color(0xFFC4C4C4),
               ),
             ),
             const SizedBox(height: 10),
-            const Divider(
-              height: 30,
-              color: Colors.black,
+            Divider(
+              color: kTextColor,
               thickness: 2,
             ),
           ],

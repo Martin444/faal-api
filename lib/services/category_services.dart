@@ -16,15 +16,4 @@ class CategoryServices {
       throw Exception(e);
     }
   }
-
-  Future<http.Response> getGarments() async {
-    try {
-      var url = Uri.parse('$baseUrl/garment');
-      var response = await http.get(url);
-      return response;
-    } catch (e) {
-      printError(info: '$e');
-      throw Exception(e);
-    }
-  }
 }

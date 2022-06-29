@@ -9,6 +9,13 @@ class CartListController extends GetxController {
   List<ProductModel>? listCart = [];
   double totalPrice = 0.0;
 
+  bool isLongCart = false;
+
+  void isLongCartFunction() {
+    isLongCart = listCart!.length > 1;
+    update();
+  }
+
   var products = Get.find<ProductsController>();
 
   clearList() {
@@ -21,12 +28,13 @@ class CartListController extends GetxController {
     try {
       var exist = listCart!.indexWhere((element) => element.id == prod.id);
 
-      printInfo(info: exist.toString());
       if (exist == -1) {
         addInCartWithOutBarcode(prod, 1);
+        isLongCartFunction();
         Get.back();
       } else {
         addItemQuantityProduct(prod);
+        isLongCartFunction();
         Get.back();
       }
       getTotalPrice();
@@ -141,6 +149,7 @@ class CartListController extends GetxController {
 
         listCart![exist] = newProd;
         getTotalPrice();
+        isLongCartFunction();
         update();
       }
     } catch (e) {

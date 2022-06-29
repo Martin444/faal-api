@@ -17,13 +17,13 @@ class TitleLine extends StatelessWidget {
         const Expanded(
           flex: 1,
           child: Divider(
-            height: 20,
+            height: 10,
             color: Colors.black,
             thickness: 2,
           ),
         ),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           child: Text(
             title,
             style: titleSecundary,
@@ -32,7 +32,7 @@ class TitleLine extends StatelessWidget {
         const Expanded(
           flex: 1,
           child: Divider(
-            height: 20,
+            height: 10,
             color: Colors.black,
             thickness: 2,
           ),

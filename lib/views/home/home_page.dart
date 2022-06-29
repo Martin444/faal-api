@@ -5,6 +5,7 @@ import 'package:faal/controllers/search_controller.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/views/cartlist/cart_list_page.dart';
 import 'package:faal/views/home/widgets/Search/search_section.dart';
+import 'package:faal/views/home/widgets/categories/category_flag.dart';
 import 'package:faal/views/home/widgets/products_list.dart';
 import 'package:faal/views/responses/wait_page.dart';
 import 'package:flutter/material.dart';
@@ -46,42 +47,6 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             backgroundColor: kBackground,
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: GetBuilder<CartListController>(
-              builder: (c) {
-                return GestureDetector(
-                  onTap: () => {
-                    Get.to(
-                      () => const CartListPage(),
-                    ),
-                  },
-                  child: Stack(
-                    alignment: const Alignment(0.9, -1.3),
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: kYellow,
-                        child: SvgPicture.asset(
-                          'assets/cart.svg',
-                          height: 30,
-                        ),
-                      ),
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundColor: kredcolor,
-                        child: Text(
-                          '${c.listCart!.length}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: kBackground,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
             body: SafeArea(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -90,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const SizedBox(height: 10),
+                        // const SizedBox(height: 10),
                         HeaderSearch(searchController: searchController),
                         const SizedBox(height: 10),
                         searcher.searching!
@@ -100,13 +65,15 @@ class _HomePageState extends State<HomePage> {
                                 child: SingleChildScrollView(
                                   controller:
                                       _serviceScrolled.scrollControllerHome,
-                                  physics: const NeverScrollableScrollPhysics(),
+                                  // physics: const NeverScrollableScrollPhysics(),
                                   child: Stack(
                                     alignment: const Alignment(0.0, 0.99),
                                     children: [
                                       Column(
                                         children: const [
                                           PromotionList(),
+                                          SizedBox(height: 10),
+                                          CategoryFlag(),
                                           ProductsList(),
                                         ],
                                       ),

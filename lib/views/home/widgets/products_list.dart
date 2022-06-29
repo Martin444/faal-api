@@ -1,9 +1,13 @@
 import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/utils/colors.dart';
+import 'package:faal/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../controllers/scroll_controllers.dart';
 import '../../../widgets/product_tile.dart';
+import '../../../widgets/title_line.dart';
 
 class ProductsList extends StatefulWidget {
   const ProductsList({Key? key}) : super(key: key);
@@ -13,7 +17,7 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
-  ScrollController? _scrollController;
+  ScrollController? _scrollController = ScrollController();
 
   var scrollService = Get.find<ScrollControllers>();
 
@@ -21,35 +25,64 @@ class _ProductsListState extends State<ProductsList> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController!.addListener(() {
-      scrollService.scrollListenHome(_scrollController!);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProductsController>(
       builder: (_) {
-        return SizedBox(
-          height: Get.height * 0.85,
-          child: GridView.builder(
-            scrollDirection: Axis.vertical,
-            controller: _scrollController,
-            itemCount: _.productsList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisExtent: 320,
-              mainAxisSpacing: 24,
-              childAspectRatio: 0.8,
-              crossAxisSpacing: 24,
+        return Column(
+          children: [
+            const TitleLine(title: 'DESTACADOS'),
+            SizedBox(
+              height: Get.height * 0.35,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                controller: _scrollController,
+                itemCount: _.productsList.sublist(0, 9).length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisExtent: 175,
+                  childAspectRatio: 0.78,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 20,
+                ),
+                itemBuilder: (context, index) {
+                  return DelayedReveal(
+                    delay: const Duration(milliseconds: 100),
+                    child: ProductTile(
+                      product: _.productsList[index],
+                    ),
+                  );
+                },
+              ),
             ),
-            // physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ProductTile(
-                product: _.productsList[index],
-              );
-            },
-          ),
+            const SizedBox(height: 30),
+            SizedBox(
+              height: Get.height * 0.35,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                controller: _scrollController,
+                itemCount: _.productsList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisExtent: 175,
+                  childAspectRatio: 0.78,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 20,
+                ),
+                itemBuilder: (context, index) {
+                  return DelayedReveal(
+                    delay: const Duration(milliseconds: 100),
+                    child: ProductTile(
+                      product: _.productsList[index >= 10 ? index : index + 10],
+                    ),
+                  );
+                },
+              ),
+            ),
+            // const SizedBox(height: 20),
+          ],
         );
       },
     );

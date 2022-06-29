@@ -106,7 +106,6 @@ class LoginServices {
           'Accept': 'application/json'
         },
       );
-
       return response;
     } catch (err) {
       // printError(info: err.toString());
@@ -125,7 +124,6 @@ class LoginServices {
           'Accept': 'application/json'
         },
       );
-
       return response;
     } catch (err) {
       printError(info: err.toString());

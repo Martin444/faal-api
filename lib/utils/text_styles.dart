@@ -32,7 +32,7 @@ var titleSecundary = TextStyle(
 // PROOTIONS
 
 var titlePromotionProduct = TextStyle(
-  fontSize: 18,
+  fontSize: 16,
   fontWeight: FontWeight.w500,
   fontFamily: 'Barlow',
   color: kTextColor,
@@ -42,13 +42,13 @@ var pricePromotionProduct = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w600,
   fontFamily: 'Barlow',
-  color: kTextColor,
+  color: kBackground,
 );
 
 // PRODUCTS
 
 var titleProduct = TextStyle(
-  fontSize: 16,
+  fontSize: 15,
   fontWeight: FontWeight.w500,
   fontFamily: 'Inter',
   color: kTextColor,
@@ -59,6 +59,14 @@ var priceProduct = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Inter',
   color: kTextColor,
+);
+
+var priceDescontProduct = TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.w700,
+  decoration: TextDecoration.lineThrough,
+  fontFamily: 'Inter',
+  color: kTextColor.withOpacity(0.8),
 );
 
 var tagProduct = TextStyle(
