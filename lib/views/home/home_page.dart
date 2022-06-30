@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../widgets/drawer_menu.dart';
 import 'widgets/header_search.dart';
 import 'widgets/promotion_list.dart';
 
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         } else {
           return Scaffold(
             backgroundColor: kBackground,
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            drawer: const DrawMenu(),
             body: SafeArea(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'controllers/login_controller.dart';
+import 'controllers/upload_controller.dart';
 import 'views/home/home_page.dart';
 
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
@@ -39,6 +41,10 @@ class MyApp extends StatelessWidget {
     Get.put<CartListController>(CartListController());
 
     Get.put<SearchController>(SearchController());
+
+    Get.put<LoginController>(LoginController());
+
+    Get.put<UploadController>(UploadController());
 
     return const GetMaterialApp(
       title: 'F.A.A.L',

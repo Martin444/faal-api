@@ -26,7 +26,7 @@ class ButtonPrimary extends StatelessWidget {
         style: ButtonStyle(
           backgroundColor: disabled
               ? MaterialStateProperty.all(Colors.grey[300])
-              : MaterialStateProperty.all(kYellow),
+              : MaterialStateProperty.all(kredDesensa),
           overlayColor: MaterialStateProperty.all(
             Colors.white.withOpacity(0.2),
           ),
@@ -43,8 +43,6 @@ class ButtonPrimary extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text(''),
-
             !load
                 ? Text(
                     title,

@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:faal/controllers/search_controller.dart';
+import 'package:faal/views/Login/login_page.dart';
+import 'package:faal/views/Login/on_board_login.dart';
 import 'package:faal/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,21 +30,31 @@ class HeaderSearch extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                child: SvgPicture.asset(
-                  'assets/searchicon.svg',
-                  height: 30,
-                ),
-              ),
-              SizedBox(
-                child: SvgPicture.asset(
-                  'assets/faaltext.svg',
-                  color: kTextColor,
-                  height: 30,
+              GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                child: SizedBox(
+                  child: SvgPicture.asset(
+                    'assets/menu.svg',
+                    height: 30,
+                  ),
                 ),
               ),
               Row(
                 children: [
+                  GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SvgPicture.asset(
+                        'assets/searchicon.svg',
+                        height: 25,
+                      ),
+                    ),
+                  ),
                   GetBuilder<CartListController>(
                     builder: (c) {
                       return GestureDetector(
@@ -75,6 +87,18 @@ class HeaderSearch extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const LoginPage());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: SvgPicture.asset(
+                        'assets/user-circle.svg',
+                        height: 35,
+                      ),
+                    ),
                   ),
                 ],
               ),

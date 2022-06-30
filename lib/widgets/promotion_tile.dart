@@ -22,7 +22,7 @@ class PromotionTile extends StatelessWidget {
         ModalsHelpers().showDetailProduct(product);
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 40, right: 15),
+        margin: const EdgeInsets.only(bottom: 40),
         child: Container(
           // padding: const EdgeInsets.symmetric(
           //   vertical: 20,
@@ -42,25 +42,15 @@ class PromotionTile extends StatelessWidget {
                   // Center(
                   //   child:
                   // ),
-                  FadeInImage.assetNetwork(
-                    placeholder: 'assets/placeholder.jpg',
-                    image: product.images![0],
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/placeholder.jpg',
+                      image: product.images![0],
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  // Container(
-                  //   width: 150,
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //       image: FadeInImage.assetNetwork(
-                  //         placeholder: 'assets/placeholder.jpg',
-                  //         image: product.images![0],
-                  //         fit: BoxFit.cover,
-                  //       ).image,
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  // ),
+
                   Flexible(
                     child: Container(
                       padding: const EdgeInsets.all(10),

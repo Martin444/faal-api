@@ -1,6 +1,22 @@
 import 'package:faal/utils/colors.dart';
 import 'package:flutter/material.dart';
 
+// Login
+
+var richTextStyle = TextStyle(
+  fontSize: 17,
+  fontFamily: 'Barlow',
+  fontWeight: FontWeight.w400,
+  color: kTextColorLigth,
+);
+
+var richUrlTextStyle = TextStyle(
+  fontSize: 17,
+  fontFamily: 'Barlow',
+  fontWeight: FontWeight.bold,
+  color: kTextColorLigth,
+);
+
 var titleAppBar = TextStyle(
   color: kTextColor,
   fontSize: 17,
@@ -8,8 +24,8 @@ var titleAppBar = TextStyle(
   fontFamily: 'Barlow',
 );
 
-var buttonStylePrimary = TextStyle(
-  color: kTextColor,
+var buttonStylePrimary = const TextStyle(
+  color: Colors.white,
   fontSize: 16,
   fontWeight: FontWeight.w500,
   fontFamily: 'Inter',
@@ -113,4 +129,30 @@ var priceTotalItems = TextStyle(
   fontWeight: FontWeight.w900,
   fontFamily: 'Inter',
   color: kTextColor,
+);
+
+// LOGIN
+
+// var buttonStylePrimary = const TextStyle(
+//   fontSize: 16,
+//   fontWeight: FontWeight.w600,
+//   fontFamily: 'AvantGarde',
+//   color: Colors.white,
+//   fontStyle: FontStyle.normal,
+// );
+
+var buttonStylePrimaryBlack = const TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: Colors.black,
+  fontStyle: FontStyle.normal,
+);
+
+var buttonStylePrimaryBlue = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: kredDesensa,
+  fontStyle: FontStyle.normal,
 );
