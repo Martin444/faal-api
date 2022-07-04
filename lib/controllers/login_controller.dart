@@ -80,7 +80,8 @@ class LoginController extends GetxController {
       );
       update();
     } catch (e) {
-      printInfo(info: 'ERRR =========$e');
+      printError(info: 'ERRR =========$e');
+      throw Exception(e);
     }
   }
 
@@ -240,7 +241,6 @@ class LoginController extends GetxController {
       try {
         var response = await getService.login(email, password);
 
-        printInfo(info: 'El response $email');
         if (response.statusCode == 201) {
           _textValidateEmail = null;
           var jsonResponse = jsonDecode(response.body);
@@ -330,7 +330,7 @@ class LoginController extends GetxController {
               confirmPassword: password2,
             );
             var jsonResponse = jsonDecode(response.body);
-
+            printInfo(info: jsonResponse.toString());
             if (jsonResponse['access_token'] != null) {
               _textValidateEmail = null;
               _accessTokenID = jsonResponse['access_token'];
@@ -433,8 +433,13 @@ class LoginController extends GetxController {
   }
 
   Future<dynamic> addPhotoServer(File photo) async {
-    var response = await serviceUp.uploadFIle(photo);
-    var jsonResponse = jsonDecode(response.toString());
-    return jsonResponse;
+    try {
+      var response = await serviceUp.uploadFIle(photo);
+      var jsonResponse = jsonDecode(response.toString());
+      return jsonResponse;
+    } catch (e) {
+      printError(info: 'Error upload image $e');
+      throw Exception(e);
+    }
   }
 }

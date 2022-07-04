@@ -6,9 +6,9 @@ import 'api_services.dart';
 class CategoryServices {
   String baseUrl = ApiService().baseUrl;
 
-  Future<http.Response> getCategorys() async {
+  Future<http.Response> getCategorys(String page) async {
     try {
-      var url = Uri.parse('$baseUrl/category');
+      var url = Uri.parse('$baseUrl/categorie/${page}');
       var response = await http.get(url);
       return response;
     } catch (e) {

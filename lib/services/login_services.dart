@@ -93,9 +93,11 @@ class LoginServices {
       var msg = jsonEncode({
         "photoURL": photoURL,
         "name": '$name',
+        "photoDNI": [''],
         "email": email!.toLowerCase(),
         "password": password,
         "role": "consumer",
+        "phone": '',
       });
       var url = Uri.parse('$baseUrl/auth/register');
       var response = await http.post(
@@ -115,7 +117,7 @@ class LoginServices {
 
   Future<http.Response> getDataUser(String token) async {
     try {
-      var url = Uri.parse('$baseUrl/users/me');
+      var url = Uri.parse('$baseUrl/user/me');
       var response = await http.get(
         url,
         headers: {

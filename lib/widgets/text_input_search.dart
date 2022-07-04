@@ -15,6 +15,7 @@ class TextInputSearch extends StatelessWidget {
   String? errorText;
   Function? function;
   Function(String)? functionSubmited;
+  bool? autoFocus = false;
 
   TextInputSearch({
     Key? key,
@@ -27,6 +28,7 @@ class TextInputSearch extends StatelessWidget {
     this.function,
     this.functionSubmited,
     this.textInputAction,
+    this.autoFocus,
   }) : super(key: key);
 
   Widget getIcon() {
@@ -63,6 +65,7 @@ class TextInputSearch extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         onChanged: functionSubmited,
         style: inputSearchStyle,
+        autofocus: autoFocus!,
         decoration: InputDecoration(
           fillColor: Colors.amber,
           suffix: getIcon(),

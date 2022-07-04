@@ -62,40 +62,44 @@ class ProductsController extends GetxController {
   }
 
   Future<List<ProductModel>> getPromotionsProducts() async {
-    var response = await ProductServices().getPromotions();
-    var jsonResponse = jsonDecode(response.body);
-    isLoadingInit = true;
-    update();
-    if (response.statusCode == 200) {
-      var products = jsonResponse;
-      for (var i in products) {
-        if (i != null) {
-          promotionsList.add(
-            ProductModel(
-              id: i['id'],
-              name: i['name'],
-              price: double.parse(i['price']).toStringAsFixed(2),
-              regularPrice: i['regular_price'],
-              salePrice: i['sale_price'],
-              categories: i['categories'],
-              images: i['images'].length == 0
-                  ? [
-                      'https://www.detallesmasbonitaqueninguna.com/server/Portal_0015715/img/products/no_image_xxl.jpg'
-                    ]
-                  : i['images'],
-            ),
-          );
-          update();
+    try {
+      var response = await ProductServices().getPromotions();
+      var jsonResponse = jsonDecode(response.body);
+      isLoadingInit = true;
+      update();
+      if (response.statusCode == 200) {
+        var products = jsonResponse;
+        for (var i in products) {
+          if (i != null) {
+            promotionsList.add(
+              ProductModel(
+                id: i['id'],
+                name: i['name'],
+                price: double.parse(i['price']).toStringAsFixed(2),
+                regularPrice: i['regular_price'],
+                salePrice: i['sale_price'],
+                categories: i['categories'],
+                images: i['images'].length == 0
+                    ? [
+                        'https://www.detallesmasbonitaqueninguna.com/server/Portal_0015715/img/products/no_image_xxl.jpg'
+                      ]
+                    : i['images'],
+              ),
+            );
+            update();
+          }
         }
+        isLoadingInit = false;
+        update();
+        return promotionsList;
+      } else {
+        printError(info: '${response.statusCode}');
+        isLoadingInit = false;
+        update();
+        throw Exception('Failed to load promotions');
       }
-      isLoadingInit = false;
-      update();
-      return promotionsList;
-    } else {
-      printError(info: '${response.statusCode}');
-      isLoadingInit = false;
-      update();
-      throw Exception('Failed to load promotions');
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

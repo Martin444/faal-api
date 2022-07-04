@@ -27,9 +27,6 @@ class UploadController extends GetxController {
   ProductServices serviceProd = ProductServices();
   UploadService serviceUp = UploadService();
 
-  bool? _isLoadingCategorys = true;
-  bool? get isLoadingCategorys => _isLoadingCategorys;
-
   CategoryModel? _categorySelected;
   CategoryModel? get categorySelected => _categorySelected;
 
@@ -102,20 +99,6 @@ class UploadController extends GetxController {
   }
 
   // Upload Form controllers and variables
-  getCategoryList() async {
-    categoryList = [];
-    var categoryResponse = await serviceCategoy.getCategorys();
-    var responseJson = jsonDecode(categoryResponse.body);
-    responseJson.forEach((e) {
-      categoryList.add(CategoryModel(
-        id: e['id'],
-        nameCategory: e['nameCategory'],
-        imageCategory: e['photoUrl'],
-      ));
-    });
-    _isLoadingCategorys = false;
-    update();
-  }
 
   selectCategory(CategoryModel category) {
     _categorySelected = category;
@@ -167,38 +150,6 @@ class UploadController extends GetxController {
   //   Get.back();
   //   Get.back();
   // }
-
-  getBrandsList() async {
-    brandList = [];
-    _isLoadingCategorys = true;
-    try {
-      var responseBrand = await serviceBrand.getBrands();
-      var brandDecode = jsonDecode(responseBrand.body);
-      printInfo(info: responseBrand.statusCode.toString());
-      if (responseBrand.statusCode == 200) {
-        brandDecode.forEach((e) {
-          brandList.add(
-            BrandModel(
-              id: e['id'],
-              namebrand: e['nameBrand'],
-              photoUrl: e['photoUrl'],
-            ),
-          );
-          _isLoadingCategorys = false;
-        });
-
-        update();
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  selectBrand(BrandModel brand) {
-    _brandSelected = brand;
-    update();
-    Get.back();
-  }
 
   selectWails(String wails) {
     _wailsSelect = wails;
@@ -271,7 +222,6 @@ class UploadController extends GetxController {
   //       "description": description,
   //       "categoryId": categorySelected!.id,
   //       "status": _statusGarment,
-
   //       "brandId": brandSelected!.id,
   //       "wails": wailsSelect,
   //       "ownerId": userInfo.userData!.id,
@@ -279,21 +229,17 @@ class UploadController extends GetxController {
   //       "stock": '0',
   //       'image': photos,
   //     });
-
   //     var responsePost = await serviceProd.postNewProduct(
   //       requestProst,
   //       userInfo.accessTokenID,
   //     );
   //     var upladedProduct = jsonDecode(responsePost.body);
-
   //     _listPhotos = [];
   //     _photoTaked = null;
   //     _categorySelected = null;
-
   //     _brandSelected = null;
   //     _wailsSelect = null;
   //     _statusGarment = null;
-
   //     printError(info: upladedProduct.toString());
   //     // return ProductModel(
   //     //   id: upladedProduct['id'],

@@ -64,11 +64,11 @@ class _SuccesPageState extends State<SuccesPage> {
                 flex: 1,
               ),
               const Text(
-                '¡Bienvenido!',
+                '¡Bienvenido a F.A.A.L!',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w300,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
               const Spacer(
@@ -98,11 +98,11 @@ class _SuccesPageState extends State<SuccesPage> {
                           color: kredDesensa,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/icon_footer.svg',
-                          height: 80,
-                          width: 80,
-                          color: Colors.black,
+                        child: Image.asset(
+                          'assets/logo.png',
+                          height: 200,
+                          width: 200,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -116,9 +116,6 @@ class _SuccesPageState extends State<SuccesPage> {
                 title: 'Ir al inicio',
                 isPro: false,
                 onPressed: () {
-                  Get.back();
-                  Get.back();
-                  Get.back();
                   Get.back();
                 },
               ),

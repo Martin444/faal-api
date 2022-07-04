@@ -430,7 +430,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         );
                         printInfo(info: response.toString());
                         if (response == true) {
-                          Get.to(
+                          Get.off(
                             () => const SuccesPage(),
                           );
                         }
