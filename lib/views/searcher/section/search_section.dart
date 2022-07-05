@@ -52,7 +52,7 @@ class _SearchSectionState extends State<SearchSection> {
                     );
                   },
                 ),
-              )
+              ),
             ],
           );
         } else {

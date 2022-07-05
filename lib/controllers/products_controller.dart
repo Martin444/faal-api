@@ -19,8 +19,11 @@ class ProductsController extends GetxController {
     update();
   }
 
+  bool? loadCategorisProduct = true;
+
   var promotionsList = <ProductModel>[];
   var productsList = <ProductModel>[];
+  var productbyCategorie = <ProductModel>[];
 
   var modelp = ProductModel();
 
@@ -100,6 +103,46 @@ class ProductsController extends GetxController {
       }
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<List<ProductModel>> getProductsByCategory(int idCat) async {
+    loadCategorisProduct = true;
+    productbyCategorie = [];
+    var response = await ProductServices().getProductsofCategory('$idCat');
+    var jsonResponse = jsonDecode(response.body);
+    printInfo(info: jsonResponse.toString());
+    update();
+    if (response.statusCode == 201) {
+      var products = jsonResponse;
+      for (var i in products) {
+        if (i != null) {
+          productbyCategorie.add(
+            ProductModel(
+              id: i['id'],
+              name: i['name'],
+              price: double.parse(i['price']).toStringAsFixed(2),
+              regularPrice: i['regular_price'],
+              salePrice: i['sale_price'],
+              categories: i['categories'],
+              images: i['images'].length == 0
+                  ? [
+                      'https://www.detallesmasbonitaqueninguna.com/server/Portal_0015715/img/products/no_image_xxl.jpg'
+                    ]
+                  : i['images'],
+            ),
+          );
+          update();
+        }
+      }
+      loadCategorisProduct = false;
+      update();
+      return promotionsList;
+    } else {
+      printError(info: '${response.statusCode}');
+      isLoadingInit = false;
+      update();
+      throw Exception('Failed to load promotions');
     }
   }
 

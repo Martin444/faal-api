@@ -14,13 +14,14 @@ class CategoriesController extends GetxController {
 
   getCategoryList(String page) async {
     categoryList = [];
+    _isLoadingCategorys = true;
     var categoryResponse = await serviceCategory.getCategorys(page);
     var responseJson = jsonDecode(categoryResponse.body);
     responseJson.forEach((e) {
       categoryList.add(CategoryModel(
         id: e['id'],
-        nameCategory: e['nameCategory'],
-        imageCategory: e['photoUrl'],
+        name: e['name'],
+        image: e['image'],
       ));
     });
     _isLoadingCategorys = false;

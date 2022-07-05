@@ -1,11 +1,11 @@
 class CategoryModel {
-  String? id;
-  String? nameCategory;
-  String? imageCategory;
+  int? id;
+  String? name;
+  String? image;
 
   CategoryModel({
     this.id,
-    this.nameCategory,
-    this.imageCategory,
+    this.name,
+    this.image,
   });
 }

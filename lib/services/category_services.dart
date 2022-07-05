@@ -8,7 +8,7 @@ class CategoryServices {
 
   Future<http.Response> getCategorys(String page) async {
     try {
-      var url = Uri.parse('$baseUrl/categorie/${page}');
+      var url = Uri.parse('$baseUrl/categories/$page');
       var response = await http.get(url);
       return response;
     } catch (e) {

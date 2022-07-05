@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/text_styles.dart';
+import '../../categorie/categorie_page.dart';
 
 class CategoryFlag extends StatefulWidget {
   const CategoryFlag({Key? key}) : super(key: key);
@@ -15,38 +16,46 @@ class CategoryFlag extends StatefulWidget {
 class _CategoryFlagState extends State<CategoryFlag> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Get.width,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/tag.svg',
-                color: kTextColor,
-                height: 20,
-              ),
-              const SizedBox(width: 3),
-              Text(
-                'Ver todas las categorias',
-                style: titleAppBar,
-              ),
-            ],
-          ),
-          SvgPicture.asset(
-            'assets/arrowrigth.svg',
-            color: kTextColor,
-            height: 25,
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        Get.to(
+          () => const CategoriePage(),
+          transition: Transition.rightToLeftWithFade,
+        );
+      },
+      child: Container(
+        width: Get.width,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/tag.svg',
+                  color: kTextColor,
+                  height: 20,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  'Ver todas las categorias',
+                  style: titleAppBar,
+                ),
+              ],
+            ),
+            SvgPicture.asset(
+              'assets/arrowrigth.svg',
+              color: kTextColor,
+              height: 25,
+            ),
+          ],
+        ),
       ),
     );
   }
