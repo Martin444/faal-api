@@ -13,6 +13,7 @@ class OnBoardLogin extends StatefulWidget {
   const OnBoardLogin({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _OnBoardLoginState createState() => _OnBoardLoginState();
 }
 

@@ -8,7 +8,7 @@ class BrandServices {
 
   Future<http.Response> getBrands() async {
     try {
-      var url = Uri.parse(baseUrl + '/brands');
+      var url = Uri.parse('$baseUrl/brands');
       var response = await http.get(url);
       return response;
     } catch (e) {

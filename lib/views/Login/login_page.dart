@@ -1,7 +1,6 @@
 import 'package:faal/utils/colors.dart';
 import 'package:faal/views/Login/register_page.dart';
 import 'package:faal/views/responses/wait_page.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,13 +8,13 @@ import 'package:get/get.dart';
 import '../../controllers/login_controller.dart';
 import '../../utils/text_styles.dart';
 import '../../widgets/button_primary.dart';
-import '../../widgets/check_tile.dart';
 import '../../widgets/text_input_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 

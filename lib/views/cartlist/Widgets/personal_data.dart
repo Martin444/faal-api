@@ -90,12 +90,12 @@ class _DataPersonalState extends State<DataPersonal> {
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CircleAvatar(
+            children: const [
+              CircleAvatar(
                 radius: 40,
                 backgroundImage: AssetImage('assets/profilew.jpg'),
               ),
-              const SizedBox(
+              SizedBox(
                 width: 10,
               ),
               // Flexible(

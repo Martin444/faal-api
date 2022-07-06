@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/views/Login/succes_page.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegisterPageState createState() => _RegisterPageState();
 }
 

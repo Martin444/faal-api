@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/button_secundary.dart';
@@ -12,6 +11,7 @@ class SuccesPage extends StatefulWidget {
   const SuccesPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SuccesPageState createState() => _SuccesPageState();
 }
 

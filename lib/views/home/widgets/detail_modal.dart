@@ -2,7 +2,6 @@ import 'package:faal/Models/product_model.dart';
 import 'package:faal/controllers/cart_list_controller.dart';
 import 'package:faal/widgets/button_primary_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +9,6 @@ import 'dart:math';
 
 import '../../../utils/text_styles.dart';
 import '../../../widgets/anim/delayed_reveal.dart';
-import '../../../widgets/button_primary.dart';
 
 // ignore: must_be_immutable
 class DetailModal extends StatefulWidget {
@@ -56,7 +54,7 @@ class _DetailModalState extends State<DetailModal> {
         return WillPopScope(
           onWillPop: () async => true,
           child: Dialog(
-            insetAnimationDuration: Duration(milliseconds: 500),
+            insetAnimationDuration: const Duration(milliseconds: 500),
             insetAnimationCurve: Curves.easeOutCubic,
             insetPadding: const EdgeInsets.all(20),
             shape: RoundedRectangleBorder(

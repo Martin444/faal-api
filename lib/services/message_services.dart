@@ -49,7 +49,7 @@ class MessageServices {
 
   Future<http.Response> getFollowOfUser(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/follow/follows');
+      var url = Uri.parse('$baseUrl/follow/follows');
       var response = await http.post(
         url,
         headers: {
@@ -65,7 +65,7 @@ class MessageServices {
 
   Future<http.Response> getFollowThisUser(String? id, String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/follow/$id/addFollow');
+      var url = Uri.parse('$baseUrl/follow/$id/addFollow');
       var response = await http.post(
         url,
         headers: {
@@ -81,7 +81,7 @@ class MessageServices {
 
   Future<http.Response> getProfilesFollower(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/follow/getMeFollow');
+      var url = Uri.parse('$baseUrl/follow/getMeFollow');
       var response = await http.post(
         url,
         headers: {

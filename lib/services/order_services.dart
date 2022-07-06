@@ -34,7 +34,7 @@ class OrderServices {
 
   Future<http.Response> getCards(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/users/getCards');
+      var url = Uri.parse('$baseUrl/users/getCards');
       var response = await http.post(
         url,
         headers: {
@@ -50,7 +50,7 @@ class OrderServices {
 
   Future<http.Response> getMyOrders(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/order/me');
+      var url = Uri.parse('$baseUrl/order/me');
       var response = await http.post(
         url,
         headers: {
@@ -66,7 +66,7 @@ class OrderServices {
 
   Future<http.Response> getMySellers(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/order/sellers');
+      var url = Uri.parse('$baseUrl/order/sellers');
       var response = await http.post(
         url,
         headers: {
@@ -82,7 +82,7 @@ class OrderServices {
 
   Future<http.Response> validateOrder(String? token, String? orderId) async {
     try {
-      var url = Uri.parse(baseUrl + '/order/validate/$orderId');
+      var url = Uri.parse('$baseUrl/order/validate/$orderId');
       var response = await http.post(
         url,
         headers: {

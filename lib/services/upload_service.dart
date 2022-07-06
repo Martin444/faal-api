@@ -25,7 +25,7 @@ class UploadService {
 
   Future<dio.Response> uploadFIles(dio.FormData file) async {
     try {
-      var url = Uri.parse(baseUrl + '/cloudinary/uploads');
+      var url = Uri.parse('$baseUrl/cloudinary/uploads');
       var response = await dio.Dio().post(
         url.toString(),
         data: file,

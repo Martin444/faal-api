@@ -1,9 +1,7 @@
 import 'package:faal/controllers/products_controller.dart';
-import 'package:faal/utils/colors.dart';
 import 'package:faal/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../controllers/scroll_controllers.dart';
 import '../../../widgets/product_tile.dart';

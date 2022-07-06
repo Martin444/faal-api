@@ -89,6 +89,7 @@ class DrawMenu extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class MenuTile extends StatelessWidget {
   String? title;
   VoidCallback? onTaping;

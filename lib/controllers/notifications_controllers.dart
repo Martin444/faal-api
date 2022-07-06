@@ -9,9 +9,7 @@ class NotificationsControllers extends GetxController {
   _registerOnFirebase() {
     _fmc.requestPermission();
     _fmc.subscribeToTopic('news');
-    _fmc.getToken().then((token) {
-      print('[Firebase Messaging] FCM Token: $token');
-    });
+    _fmc.getToken().then((token) {});
   }
 
   void getMessage() {

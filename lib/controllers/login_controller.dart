@@ -24,7 +24,7 @@ class LoginController extends GetxController {
   bool? _isLoading = false;
   bool? get isLoading => _isLoading;
 
-  bool? _isLoadingSocial = false;
+  final bool _isLoadingSocial = false;
   bool? get isLoadingSocial => _isLoadingSocial;
 
   bool? _isLoadingPage = true;

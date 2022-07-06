@@ -8,7 +8,7 @@ class CardServices {
 
   Future<http.Response> addNewCard(String? token, Object data) async {
     try {
-      var url = Uri.parse(baseUrl + '/cards/addCard');
+      var url = Uri.parse('$baseUrl/cards/addCard');
       var response = await http.post(
         url,
         body: data,
@@ -25,7 +25,7 @@ class CardServices {
 
   Future<http.Response> getCards(String? token) async {
     try {
-      var url = Uri.parse(baseUrl + '/cards/mycards');
+      var url = Uri.parse('$baseUrl/cards/mycards');
       var response = await http.post(
         url,
         headers: {

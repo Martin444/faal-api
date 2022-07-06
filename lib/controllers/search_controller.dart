@@ -120,7 +120,7 @@ class SearchController extends GetxController {
   // ProductServices serviceProd = ProductServices();
   // UploadService serviceUp = UploadService();
 
-  bool? _isLoadingCategorys = true;
+  final bool _isLoadingCategorys = true;
   bool? get isLoadingCategorys => _isLoadingCategorys;
 
   // getCategoryList() async {

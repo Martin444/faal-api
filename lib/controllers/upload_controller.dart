@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-// import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,7 +8,6 @@ import 'package:dio/dio.dart' as dio;
 
 import '../Models/brand_model.dart';
 import '../Models/category_model.dart';
-import '../Models/product_model.dart';
 import '../services/brands_services.dart';
 import '../services/category_services.dart';
 import '../services/products_services.dart';
@@ -43,7 +41,7 @@ class UploadController extends GetxController {
   File? _photoTaked;
   File? get photoTaked => _photoTaked;
 
-  List<File> _listPhotos = [];
+  final List<File> _listPhotos = [];
   List<File>? get listPhotos => _listPhotos;
   takePicture(XFile photo) async {
     var newPhoto = File(photo.path);
