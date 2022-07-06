@@ -30,7 +30,6 @@ class ProductsController extends GetxController {
   Future<List<ProductModel>> getProductsPage(int? page) async {
     var response = await ProductServices().getProducts(page: page);
     var jsonResponse = jsonDecode(response.body);
-
     if (response.statusCode == 200) {
       var products = jsonResponse;
       for (var i in products) {

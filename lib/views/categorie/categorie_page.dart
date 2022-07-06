@@ -17,11 +17,16 @@ class CategoriePage extends StatefulWidget {
 
 class _CategoriePageState extends State<CategoriePage> {
   var categoryController = Get.find<CategoriesController>();
+  var scrollController = ScrollController();
 
   @override
   void initState() {
     categoryController.getCategoryList('1');
     super.initState();
+
+    scrollController.addListener(() {
+      categoryController.scrollChargeMoreCategory(scrollController);
+    });
   }
 
   @override
@@ -63,11 +68,46 @@ class _CategoriePageState extends State<CategoriePage> {
             body: SafeArea(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ListView.builder(
-                  itemCount: _.categoryList.length,
-                  itemBuilder: (context, index) => CategoryTile(
-                    model: _.categoryList[index],
-                  ),
+                child: Column(
+                  children: [
+                    const Divider(
+                      color: Colors.black,
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: _.categoryList.length,
+                        itemBuilder: (context, index) => CategoryTile(
+                          model: _.categoryList[index],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        !_.isLoadingMoreCategorys! ? _.getMoreCategory() : null;
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        height: _.endCategory ? 70 : 0,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              _.isLoadingMoreCategorys!
+                                  ? 'Cargando'
+                                  : 'Ver mas categorias',
+                              style: inputSearchStyle,
+                            ),
+                            SvgPicture.asset('assets/arrowdown.svg')
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -34,7 +34,7 @@ class CategoryTile extends StatelessWidget {
               model.name!,
               style: titlePromotionProduct,
             ),
-            SvgPicture.asset('assets/arrowrigth.svg')
+            SvgPicture.asset('assets/arrowrigth.svg'),
           ],
         ),
       ),

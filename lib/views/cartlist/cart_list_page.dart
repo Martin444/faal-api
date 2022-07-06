@@ -109,36 +109,6 @@ class _CartListPageState extends State<CartListPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // Row(
-                        //   children: [
-                        //     Flexible(
-                        //       child: ButtonWithLineBlack(
-                        //         title: 'Con codigo',
-                        //         onPressed: () {
-                        //           _.addProductWithBarcode();
-                        //         },
-                        //       ),
-                        //     ),
-                        //     const SizedBox(
-                        //       width: 5,
-                        //     ),
-                        //     Flexible(
-                        //       child: ButtonWithLineBlack(
-                        //         title: 'Sin codigo',
-                        //         onPressed: () {
-                        //           // Get.back();
-                        //           Get.to(
-                        //             () => const ListProductsWithOutCode(),
-                        //             transition: Transition.rightToLeft,
-                        //           );
-                        //         },
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        const SizedBox(
-                          height: 5,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
