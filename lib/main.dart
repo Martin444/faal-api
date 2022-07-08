@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 
 import 'controllers/categories_controller.dart';
 import 'controllers/login_controller.dart';
+import 'controllers/order_controller.dart';
 import 'controllers/upload_controller.dart';
 import 'views/home/home_page.dart';
 
@@ -48,6 +49,8 @@ class MyApp extends StatelessWidget {
     Get.put<UploadController>(UploadController());
 
     Get.put<CategoriesController>(CategoriesController());
+
+    Get.put<OrderController>(OrderController());
 
     return const GetMaterialApp(
       title: 'F.A.A.L',

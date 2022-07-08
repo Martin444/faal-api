@@ -25,7 +25,7 @@ class ButtonPrimaryIcon extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: TextButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(kYellow),
+          backgroundColor: MaterialStateProperty.all(kredDesensa),
           overlayColor: MaterialStateProperty.all(
             Colors.white.withOpacity(0.2),
           ),
@@ -50,7 +50,7 @@ class ButtonPrimaryIcon extends StatelessWidget {
                       SvgPicture.asset(
                         path,
                         height: 25,
-                        color: kTextColor,
+                        color: Colors.white,
                       ),
                       const SizedBox(
                         width: 10,

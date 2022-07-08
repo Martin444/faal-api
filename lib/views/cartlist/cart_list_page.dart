@@ -1,4 +1,5 @@
 import 'package:faal/utils/colors.dart';
+import 'package:faal/views/cartlist/payment_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import '../../controllers/cart_list_controller.dart';
 import '../../utils/text_styles.dart';
 import '../../widgets/button_primary.dart';
+import '../Payments/method_pay.dart';
 import 'Widgets/cart_list.dart';
 
 class CartListPage extends StatefulWidget {
@@ -139,15 +141,17 @@ class _CartListPageState extends State<CartListPage> {
                               child: ButtonPrimary(
                                 title: 'SIGUIENTE',
                                 onPressed: () {
-                                  // _.listCart!.isEmpty
-                                  //     ? Get.snackbar(
-                                  //         '¡Pará emoción!',
-                                  //         'Carga un producto antes',
-                                  //         backgroundColor: Colors.red,
-                                  //         colorText: Colors.white,
-                                  //         snackPosition: SnackPosition.TOP,
-                                  //       )
-                                  //     : Get.to(() => const PaymentDetailsPage());
+                                  _.listCart!.isEmpty
+                                      ? Get.snackbar(
+                                          '¡Pará emoción!',
+                                          'Carga un producto antes',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                          snackPosition: SnackPosition.TOP,
+                                        )
+                                      : Get.to(
+                                          () => const MethodPay(),
+                                        );
                                 },
                                 load: false,
                               ),

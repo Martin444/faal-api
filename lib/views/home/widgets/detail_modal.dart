@@ -69,22 +69,24 @@ class _DetailModalState extends State<DetailModal> {
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.network(widget.product.images![0]),
+                          child: Image.network(
+                            widget.product.images![0],
+                            height: Get.height / 2.5,
+                            width: Get.width,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                        // const Divider(
-                        //   height: 25,
-                        //   thickness: 2,
-                        // ),
                         const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // const SizedBox(height: 30),
                               DelayedReveal(
                                 delay: const Duration(milliseconds: 100),
                                 child: Text(

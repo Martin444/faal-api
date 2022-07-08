@@ -32,6 +32,7 @@ dependencies:
   shared_preferences: ^2.0.15
   animate_do: ^2.1.0
   image_picker: ^0.8.5+3
+  device_info_plus: ^4.0.0
   confetti: ^0.7.0
   camera: ^0.9.8+1
 
@@ -39,6 +40,10 @@ dependencies:
   # Connections
   http: ^0.13.4
   dio: ^4.0.6
+
+  # Payments
+  mercadopago_transparent: ^1.0.1
+  flutter_credit_card: ^3.0.1
 
 
 flutter_icons:
