@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../controllers/cart_list_controller.dart';
 import '../../utils/text_styles.dart';
 import '../../widgets/button_primary.dart';
+import '../Payments/delivery/delivery_method.dart';
 import '../Payments/method_pay.dart';
 import 'Widgets/cart_list.dart';
 
@@ -150,7 +151,7 @@ class _CartListPageState extends State<CartListPage> {
                                           snackPosition: SnackPosition.TOP,
                                         )
                                       : Get.to(
-                                          () => const MethodPay(),
+                                          () => const DeliveryMethodPage(),
                                         );
                                 },
                                 load: false,

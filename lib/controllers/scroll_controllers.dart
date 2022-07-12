@@ -1,4 +1,4 @@
-import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/controllers/products/products_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 

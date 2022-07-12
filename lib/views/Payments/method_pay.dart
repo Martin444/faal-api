@@ -1,16 +1,17 @@
 import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
-import 'package:faal/views/Payments/list_cards.dart';
+import 'package:faal/views/Payments/Cards/create_card_page.dart';
 import 'package:faal/views/Payments/widgets/pay_icons.dart';
 import 'package:faal/views/Payments/widgets/title_expand.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../../controllers/order_controller.dart';
+import '../../utils/colors.dart';
 import '../../widgets/button_primary.dart';
-import 'Cards/create_card_page.dart';
 import 'delivery/delivery_method.dart';
 
 class MethodPay extends StatefulWidget {
@@ -64,30 +65,155 @@ class _MethodPayState extends State<MethodPay> {
                       style: titleSecundary,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ExpansionTile(
-                    tilePadding: const EdgeInsets.all(0),
-                    title: TitleExpand(
-                      path: 'assets/cash.svg',
-                      title: 'PAGO EN EFECTIVO EN EL LOCAL:',
-                      subtitle: 'ACERCATE A NUESTRO LOCAL Y PAGÁ EN EFECTIVO',
+                  const SizedBox(height: 20),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.all(10),
+                    decoration: _.methodPaySelect == 1
+                        ? decorationMethodSelected
+                        : decorationMethod,
+                    child: ExpansionTile(
+                      onExpansionChanged: (va) {
+                        _.selectMethodPay(1);
+                      },
+                      tilePadding: const EdgeInsets.all(0),
+                      title: TitleExpand(
+                        path: 'assets/cash.svg',
+                        title: 'PAGO EN EFECTIVO EN EL LOCAL:',
+                        subtitle: 'ACERCATE A NUESTRO LOCAL Y PAGÁ EN EFECTIVO',
+                      ),
+                      expandedAlignment: Alignment.topLeft,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            '¿Cómo llegar?',
+                            style: buttonStylePrimaryBlues,
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  ExpansionTile(
-                    tilePadding: const EdgeInsets.all(0),
-                    title: TitleExpand(
-                      path: 'assets/library.svg',
-                      title: 'PAGO CON TRANSFERENCIA:',
-                      subtitle:
-                          'COPIA NUESTRO CBU PARA EFECTUAR EL PAGO. DESPUES, AGREGA EL COMPROBANTE EN EL DETALLE DE TU PEDIDO EN LA SECCION DE “MIS PEDIDOS” EN TU PERFIL ',
+                  const SizedBox(height: 20),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.all(10),
+                    decoration: _.methodPaySelect == 2
+                        ? decorationMethodSelected
+                        : decorationMethod,
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.all(0),
+                      onExpansionChanged: (va) {
+                        _.selectMethodPay(2);
+                      },
+                      title: TitleExpand(
+                        path: 'assets/library.svg',
+                        title: 'PAGO CON TRANSFERENCIA:',
+                        subtitle:
+                            'COPIA NUESTRO CBU PARA EFECTUAR EL PAGO. DESPUES, AGREGA EL COMPROBANTE EN EL DETALLE DE TU PEDIDO EN LA SECCION DE “MIS PEDIDOS” EN TU PERFIL ',
+                      ),
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Clipboard.setData(
+                              const ClipboardData(
+                                text: '0720327320000000378440',
+                              ),
+                            ).then(
+                              (value) => {
+                                Get.showSnackbar(
+                                  const GetSnackBar(
+                                    duration: Duration(seconds: 1),
+                                    message: 'CBU Copiado!',
+                                  ),
+                                ),
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: kgraycolor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('assets/duplicate.svg'),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '0720327320000000378440',
+                                  style: titleAppBar,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  ExpansionTile(
-                    tilePadding: const EdgeInsets.all(0),
-                    title: TitleExpand(
-                      path: 'assets/credit.svg',
-                      title: 'PAGO CON TARJETA:',
-                      subtitle: 'ELIGE ALGUNA DE LAS TARJETAS DE TU BILLETERA.',
+                  const SizedBox(height: 20),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.all(10),
+                    decoration: _.methodPaySelect == 3
+                        ? decorationMethodSelected
+                        : decorationMethod,
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.all(0),
+                      onExpansionChanged: (va) {
+                        _.selectMethodPay(3);
+                      },
+                      title: TitleExpand(
+                        path: 'assets/credit.svg',
+                        title: 'PAGO CON TARJETA:',
+                        subtitle:
+                            'ELIGE ALGUNA DE LAS TARJETAS DE TU BILLETERA.',
+                      ),
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => const CreateCardPage(),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: kgraycolor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/plus.svg',
+                                  color: kpurplecolor,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'AGREGA UNA TARJETA',
+                                  style: buttonStylePrimaryBlues,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const Spacer(),
@@ -101,7 +227,7 @@ class _MethodPayState extends State<MethodPay> {
                       );
                     },
                     load: false,
-                    disabled: _.selectedCard == null,
+                    disabled: _.methodPaySelect == null,
                   ),
                   const SizedBox(height: 20),
                 ],

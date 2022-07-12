@@ -1,4 +1,4 @@
-import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/controllers/products/products_controller.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:faal/Models/category_model.dart';
-import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/controllers/products/products_controller.dart';
 import 'package:faal/views/responses/wait_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

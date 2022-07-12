@@ -1,5 +1,5 @@
 import 'package:faal/controllers/cart_list_controller.dart';
-import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/controllers/products/products_controller.dart';
 import 'package:faal/controllers/scroll_controllers.dart';
 import 'package:faal/controllers/search_controller.dart';
 import 'package:firebase_core/firebase_core.dart';

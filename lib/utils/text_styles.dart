@@ -156,3 +156,11 @@ var buttonStylePrimaryBlue = TextStyle(
   color: kredDesensa,
   fontStyle: FontStyle.normal,
 );
+
+var buttonStylePrimaryBlues = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: kpurplecolor,
+  fontStyle: FontStyle.normal,
+);

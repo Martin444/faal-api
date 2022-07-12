@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 import 'package:mercadopago_transparent/mercadopago_transparent.dart';
 // Models
 import '../Models/credit_card_model.dart';
@@ -25,22 +26,26 @@ class OrderController extends GetxController {
   bool? isLoadCard = false;
   String? errorText = '';
   var productBuy = <ProductModel>[];
+  int? methodPaySelect;
 
-  var mp;
+  MP? mp;
 
   void addProductBuy(ProductModel product) {
     productBuy = [];
     productBuy.add(product);
   }
 
+  void selectMethodPay(int method) {
+    methodPaySelect = method;
+    update();
+  }
+
   @override
   void onInit() {
     try {
-      mp = MercadoPago(
-        acessToken:
-            'TEST-6615526105581954-061306-973d8162f8b15419766b17bc6a2cadf0-367500631',
-        publicKey: 'TEST-372a5910-124d-4ce8-a283-98a6609f2598',
-        applicationId: '',
+      mp = MP(
+        'TEST-372a5910-124d-4ce8-a283-98a6609f2598',
+        'TEST-6615526105581954-061306-973d8162f8b15419766b17bc6a2cadf0-367500631',
       );
     } catch (e) {
       printError(info: 'Error onInit OrderController: $e');
@@ -84,28 +89,31 @@ class OrderController extends GetxController {
     String? cardExpiryDate,
   }) async {
     try {
-      isLoadCard = true;
+      // isLoadCard = true;
       update();
+      printInfo(info: 'Card Number $cardNumber');
+      var body = {
+        'security_code': cardCvv,
+        'expiration_year': cardExpiryDate,
+        'expiration_month': cardExpiryDate,
+        'card_number': cardNumber!.replaceAll(' ', ''),
+        'cardholder': {
+          // 'identification': {
+          //   'number': documentNumber,
+          //   'type': documentType,
+          // },
+          'name': cardName,
+        }
+      };
 
-      // final openpay = Openpay(
-      //   'mkthbb1nmr2enf5wdkv8',
-      //   'pk_07c8d0af57e4414c92ff6a2984a3a379',
-      //   country: Country.Mexico,
-      //   isSandboxMode: true,
-      // );
-      // final token = await openpay.createToken(
-      //   CardInfo(
-      //     cardNumber!.replaceAll(' ', ''), // card number
-      //     cardName!, // holder name
-      //     cardExpiryDate!.split('/')[1], //year
-      //     cardExpiryDate.split('/')[0], //month
-      //     cardCvv!, // cvv
-      //   ),
-      // );
-      // printInfo(info: token.toString());
-      // validateNewCard(token.id);
+      var tokenCard = await mp!.post(
+        '/v1/card_tokens?access_token=TEST-6615526105581954-061306-973d8162f8b15419766b17bc6a2cadf0-367500631',
+        data: body,
+      );
+
+      printInfo(info: 'Tokenized $tokenCard');
     } catch (e) {
-      printInfo(info: e.toString());
+      printError(info: e.toString());
       var error = e.toString();
       if (error != '''Instance of 'response''') {
         var depure = error.split('{')[1];

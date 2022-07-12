@@ -1,4 +1,5 @@
 import 'package:faal/utils/colors.dart';
+import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,16 +24,14 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.transparent,
-              systemNavigationBarContrastEnforced: true,
-            ),
+            systemOverlayStyle: systemDart,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             elevation: 0,
-            title: const Text('Método de envío'),
+            title: Text(
+              'Método de envío',
+              style: titleAppBar,
+            ),
             centerTitle: true,
           ),
           body: Container(
@@ -48,23 +47,13 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
                 ),
                 const SizedBox(height: 20),
                 DeliveryTile(
-                  selected: _.deliverySelected == 'estafeta',
-                  brand: Image.asset(
-                    'assets/estafeta.png',
-                    height: 20,
-                  ),
-                  onTaper: () {
-                    _.selectDelivery('estafeta');
-                  },
-                ),
-                DeliveryTile(
                   selected: _.deliverySelected == 'Entrega en persona',
                   brand: Text(
-                    'Entrega en persona',
+                    'Retiro en persona',
                     style: titleAppBar,
                   ),
                   onTaper: () {
-                    _.selectDelivery('Entrega en persona');
+                    _.selectDelivery('Retiro en persona');
                   },
                 ),
                 const SizedBox(height: 20),

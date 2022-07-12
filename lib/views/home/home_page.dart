@@ -1,4 +1,4 @@
-import 'package:faal/controllers/products_controller.dart';
+import 'package:faal/controllers/products/products_controller.dart';
 import 'package:faal/controllers/scroll_controllers.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/views/home/widgets/category_flag.dart';
