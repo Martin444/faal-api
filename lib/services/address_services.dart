@@ -69,7 +69,6 @@ class AddresServices {
           // 'Accept': 'application/json'
         },
       );
-
       return response;
     } catch (err) {
       printError(info: err.toString());

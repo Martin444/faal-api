@@ -1,6 +1,13 @@
+import 'package:faal/controllers/address_controller.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
+import 'package:faal/views/Login/login_page.dart';
+import 'package:faal/views/Payments/delivery/create_address_page.dart';
+import 'package:faal/views/Payments/delivery/list_addres.dart';
+import 'package:faal/widgets/button_primary_icon.dart';
+import 'package:faal/widgets/button_secundary.dart';
+import 'package:faal/widgets/button_with_line_black.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,6 +25,14 @@ class DeliveryMethodPage extends StatefulWidget {
 }
 
 class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
+  var address = Get.find<AddressController>();
+
+  @override
+  void initState() {
+    address.findMyAddress();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<OrderController>(
@@ -39,7 +54,7 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
             child: Column(
               children: [
                 const Text(
-                  '¿Como quieres recibir el producto?',
+                  '¿Como querés recibir el pedido?',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w400,
@@ -47,47 +62,94 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
                 ),
                 const SizedBox(height: 20),
                 DeliveryTile(
-                  selected: _.deliverySelected == 'Entrega en persona',
+                  selected: _.deliverySelected == 'Entrega a domicilio',
+                  brand: Text(
+                    'Entrega a domicilio',
+                    style: _.deliverySelected != 'Entrega a domicilio'
+                        ? titleAppBar
+                        : titleAppBarWithe,
+                  ),
+                  onTaper: () {
+                    _.selectDelivery('Entrega a domicilio');
+                  },
+                ),
+                DeliveryTile(
+                  selected: _.deliverySelected == 'Retiro en persona',
                   brand: Text(
                     'Retiro en persona',
-                    style: titleAppBar,
+                    style: _.deliverySelected != 'Retiro en persona'
+                        ? titleAppBar
+                        : titleAppBarWithe,
                   ),
                   onTaper: () {
                     _.selectDelivery('Retiro en persona');
                   },
                 ),
                 const SizedBox(height: 20),
-                _.deliverySelected != null
+                _.deliverySelected != null &&
+                        _.deliverySelected == 'Entrega a domicilio'
                     ? Column(
                         children: [
                           const Text(
-                            '¿Dónde quieres recibir el producto?',
+                            '¿Dónde querés recibir el pedido?',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
+                          const ListAddres(),
                           const SizedBox(height: 20),
-                          DeliveryTile(
-                            selected: _.myAddress == 'Dirección 1',
-                            brand: Text(
-                              'Dirección 1',
-                              style: titleAppBar,
-                            ),
-                            onTaper: () {
-                              _.selectMyAddress('Dirección 1');
+                          ButtonPrimaryIcon(
+                            path: 'assets/plus.svg',
+                            title: 'Agregar direccion',
+                            onPressed: () {
+                              _.user.accessTokenID != null
+                                  ? Get.to(() => const CreateAddressPage())
+                                  : Get.bottomSheet(
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 30,
+                                        ),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'Para agregar una dirección tenes que iniciar sesión',
+                                              textAlign: TextAlign.center,
+                                              style: titleDetail,
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            ButtonPrimary(
+                                              title: 'Iniciar sesión',
+                                              onPressed: () {
+                                                Get.back();
+                                                Get.to(
+                                                  () => const LoginPage(),
+                                                );
+                                              },
+                                              load: false,
+                                            ),
+                                            ButtonWithLine(
+                                              title: 'Continuar luego',
+                                              onPressed: () {},
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
                             },
-                          ),
-                          DeliveryTile(
-                            selected: _.myAddress == 'Dirección 2',
-                            brand: Text(
-                              'Dirección 2',
-                              style: titleAppBar,
-                            ),
-                            onTaper: () {
-                              _.selectMyAddress('Dirección 2');
-                            },
-                          ),
+                            load: false,
+                          )
                         ],
                       )
                     : const SizedBox(),
@@ -140,7 +202,7 @@ class DeliveryTile extends StatelessWidget {
         ),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
-          color: selected ? kredDesensa : Colors.grey[200],
+          color: selected ? kpurplecolor : Colors.grey[200],
           borderRadius: BorderRadius.circular(10),
         ),
         child: brand!,

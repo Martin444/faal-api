@@ -24,6 +24,13 @@ var titleAppBar = TextStyle(
   fontFamily: 'Barlow',
 );
 
+var titleAppBarWithe = const TextStyle(
+  color: Colors.white,
+  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Barlow',
+);
+
 var buttonStylePrimary = const TextStyle(
   color: Colors.white,
   fontSize: 16,

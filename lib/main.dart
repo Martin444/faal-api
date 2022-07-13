@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'controllers/address_controller.dart';
 import 'controllers/categories_controller.dart';
 import 'controllers/login_controller.dart';
 import 'controllers/order_controller.dart';
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
     Get.put<SearchController>(SearchController());
 
     Get.put<LoginController>(LoginController());
+
+    Get.put<AddressController>(AddressController());
 
     Get.put<UploadController>(UploadController());
 

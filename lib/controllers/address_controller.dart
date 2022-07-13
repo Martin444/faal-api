@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Models/address_model.dart';
 import '../services/address_services.dart';
+import '../widgets/congrats_modal.dart';
 import 'login_controller.dart';
 
 class AddressController extends GetxController {
@@ -132,14 +133,7 @@ class AddressController extends GetxController {
           // location: addressLocation,
         );
         modeSearch = false;
-        mycontrollerMap?.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: addressLocation,
-              zoom: 18,
-            ),
-          ),
-        );
+
         _add();
         update();
       }
@@ -182,13 +176,13 @@ class AddressController extends GetxController {
       if (response.statusCode == 201) {
         isSave = false;
         update();
-        // Get.dialog(CongratsModal(
-        //   message: 'Tu dirección se guardó con éxito',
-        //   onPressed: () {
-        //     Get.back();
-        //     Get.back();
-        //   },
-        // ));
+        Get.dialog(CongratsModal(
+          message: 'Tu dirección se guardó con éxito',
+          onPressed: () {
+            Get.back();
+            Get.back();
+          },
+        ));
       }
       printInfo(info: response.body);
     }
@@ -198,24 +192,27 @@ class AddressController extends GetxController {
   var myAddress = <AddressModel>[];
 
   void findMyAddress() async {
-    var response = await addressService.getMyAddress(
-      token: userToken.accessTokenID,
-    );
+    if (userToken.accessTokenID != null) {
+      myAddress = [];
+      var response = await addressService.getMyAddress(
+        token: userToken.accessTokenID,
+      );
 
-    if (response.statusCode == 200) {
-      var jsonConver = jsonDecode(response.body);
-      jsonConver.forEach((e) {
-        printInfo(info: e.toString());
-        myAddress.add(AddressModel(
-          id: e['id'],
-          country: e['country'],
-          city: e['city'],
-          address: e['address1'],
-          codepostal: e['cpcode'].toString(),
-          // location: LatLng(e['lat'], e['long']),
-        ));
-      });
-      update();
+      if (response.statusCode == 200) {
+        printInfo(info: response.body.toString());
+        var jsonConver = jsonDecode(response.body);
+        jsonConver.forEach((e) {
+          myAddress.add(AddressModel(
+            id: e['id'],
+            country: e['country'],
+            city: e['city'],
+            address: e['address1'],
+            codepostal: e['cpcode'].toString(),
+            // location: LatLng(e['lat'], e['long']),
+          ));
+        });
+        update();
+      }
     }
   }
 }

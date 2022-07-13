@@ -185,6 +185,11 @@ class OrderController extends GetxController {
   String? deliverySelected;
 
   void selectDelivery(String? delivery) {
+    if (delivery == 'Retiro en persona') {
+      myAddress = '';
+    } else {
+      myAddress = null;
+    }
     deliverySelected = delivery;
     update();
   }

@@ -1,6 +1,6 @@
+import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -25,12 +25,7 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.transparent,
-              systemNavigationBarContrastEnforced: true,
-            ),
+            systemOverlayStyle: systemDart,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -59,7 +54,8 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
                         Row(
                           children: [
                             SvgPicture.asset(
-                              'assets/locationblue.svg',
+                              'assets/location-marker.svg',
+                              color: kpurplecolor,
                             ),
                             const SizedBox(width: 5),
                             Text(
@@ -117,7 +113,7 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
                 DelayedReveal(
                   delay: const Duration(milliseconds: 500),
                   child: TextInputField(
-                    labelText: 'Dirección',
+                    labelText: 'Dirección y altura',
                     controller: _.addressController,
                     inputType: TextInputType.streetAddress,
                     errorText: _.addressErrorText,
@@ -168,7 +164,7 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
                           onPressed: () {
                             _.saveAddress();
                           },
-                          load: false,
+                          load: _.isSave,
                         ),
                 ),
                 const SizedBox(
