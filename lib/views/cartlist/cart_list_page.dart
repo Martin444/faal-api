@@ -1,3 +1,4 @@
+import 'package:faal/controllers/order_controller.dart';
 import 'package:faal/utils/colors.dart';
 import 'package:faal/views/cartlist/payment_details.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class CartListPage extends StatefulWidget {
 }
 
 class _CartListPageState extends State<CartListPage> {
+  var order = Get.find<OrderController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,103 +74,108 @@ class _CartListPageState extends State<CartListPage> {
           ),
         ],
       ),
-      body: GetBuilder<CartListController>(builder: (_) {
-        return SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    const Divider(
-                      color: Colors.black,
-                      thickness: 1,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      _.listCart!.length > 1
-                          ? '${_.listCart!.length} ARTICULOS AGREGADOS'
-                          : '${_.listCart!.length} ARTICULO AGREGADO',
-                      style: subtitleCart,
-                      textAlign: TextAlign.right,
-                    ),
-                    const SizedBox(height: 20),
-                    const ListCarts(),
-                    const SizedBox(height: 5),
-                  ],
+      body: GetBuilder<CartListController>(
+        builder: (_) {
+          return SafeArea(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      const Divider(
+                        color: Colors.black,
+                        thickness: 1,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        _.listCart!.length > 1
+                            ? '${_.listCart!.length} ARTICULOS AGREGADOS'
+                            : '${_.listCart!.length} ARTICULO AGREGADO',
+                        style: subtitleCart,
+                        textAlign: TextAlign.right,
+                      ),
+                      const SizedBox(height: 20),
+                      const ListCarts(),
+                      const SizedBox(height: 5),
+                    ],
+                  ),
                 ),
-              ),
-              GetBuilder<CartListController>(
-                builder: (_) {
-                  return Container(
-                    height: 100,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Hero(
-                                tag: 'price',
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // const Text(r'$', style: primaryText),
-                                    const Text(
-                                      'Total a pagar',
-                                      // style: primaryText1,
-                                    ),
-                                    Text(
-                                      _.totalPrice.toString().length > 4
-                                          ? '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}'
-                                          : '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}',
-                                      style: priceTotalItems,
-                                    ),
-                                  ],
+                GetBuilder<CartListController>(
+                  builder: (_) {
+                    return Container(
+                      height: 100,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Hero(
+                                  tag: 'price',
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Total a pagar',
+                                        // style: primaryText1,
+                                      ),
+                                      Text(
+                                        _.totalPrice.toString().length > 4
+                                            ? '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}'
+                                            : '\$ ${_.totalPrice.toStringAsFixed(2).replaceAll('.', ',')}',
+                                        style: priceTotalItems,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              child: ButtonPrimary(
-                                title: 'SIGUIENTE',
-                                onPressed: () {
-                                  _.listCart!.isEmpty
-                                      ? Get.snackbar(
-                                          '¡Pará emoción!',
-                                          'Carga un producto antes',
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          snackPosition: SnackPosition.TOP,
-                                        )
-                                      : Get.to(
-                                          () => const DeliveryMethodPage(),
-                                        );
-                                },
-                                load: false,
+                              Flexible(
+                                child: ButtonPrimary(
+                                  title: 'COMPRAR',
+                                  onPressed: () {
+                                    order.addProductBuy(_.listCart!);
+                                    _.listCart!.isEmpty
+                                        ? Get.snackbar(
+                                            '¡Pará emoción!',
+                                            'Carga un producto antes',
+                                            backgroundColor: Colors.red,
+                                            colorText: Colors.white,
+                                            snackPosition: SnackPosition.TOP,
+                                          )
+                                        : Get.to(
+                                            () => const DeliveryMethodPage(),
+                                          );
+                                  },
+                                  load: false,
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      }),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

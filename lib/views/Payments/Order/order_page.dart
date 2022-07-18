@@ -1,10 +1,18 @@
+import 'dart:async';
+
+import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
+import 'package:faal/views/Payments/Order/widget/list_prod_details.dart';
+import 'package:faal/views/Payments/Order/widget/pr_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:mercadopago_transparent/mercadopago_transparent.dart';
 
 import '../../../Models/product_model.dart';
 import '../../../controllers/order_controller.dart';
+import '../../../utils/colors.dart';
 import '../../../widgets/button_primary.dart';
 
 class OrderPage extends StatefulWidget {
@@ -16,260 +24,352 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  final eventResponse = const EventChannel('faal.martinfarel.com/response');
+
+  StreamSubscription? _suscriptiomStream;
+
+  @override
+  void initState() {
+    _suscriptiomStream = eventResponse.receiveBroadcastStream().listen(
+      (event) {
+        printInfo(info: 'Soy el event response ${event.runtimeType}');
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<OrderController>(
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.transparent,
-              systemNavigationBarContrastEnforced: true,
-            ),
+            systemOverlayStyle: systemDart,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             elevation: 0,
+            leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 15),
+                child: SvgPicture.asset('assets/back.svg'),
+              ),
+            ),
+            leadingWidth: 45,
             title: Text(
-              'Factura',
+              'Resumen',
               style: titleAppBar,
             ),
             centerTitle: true,
           ),
-          body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Articulo:',
-                  style: titleDetail,
-                ),
-                ProductAr(
-                  detail: _.productBuy[0],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Datos de compra:',
-                  style: titleAppBar,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                height: Get.height,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Envío: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          _.deliverySelected != 'estafeta'
-                              ? Text(
-                                  '${_.deliverySelected}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              : Image.asset(
-                                  'assets/estafeta.png',
-                                  height: 18,
-                                ),
-                        ],
+                      const Divider(
+                        color: Colors.black,
+                        thickness: 1,
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Dirección de entrega: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                      // Details products
+
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 13,
+                        ),
+                        decoration: BoxDecoration(
+                          color: kModalcolor,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 12,
+                              offset: const Offset(0, 8),
+                              spreadRadius: 0,
                             ),
-                          ),
-                          Text(
-                            '${_.myAddress}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Detalle del pedido:',
+                              style: titleAppBar,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Pedido: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(height: 16),
+                            const ListProdetails(),
+                            const Divider(
+                              color: Colors.black,
+                              thickness: 1,
                             ),
-                          ),
-                          Text(
-                            '${_.productBuy[0].price} MXN',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      _.deliverySelected == 'estafeta'
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
-                                  'Tarifa de envío: ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            if (_.methodPaySelect == 'Mercado pago')
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset('assets/mercado.png'),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Comisión de mercado pago:',
+                                          style: titlePromotionProduct,
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '\$${_.mpComision.toStringAsFixed(2)}',
+                                      style: titleAppBar,
+                                    )
+                                  ],
                                 ),
-                                Text(
-                                  '80 MXN',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                              ),
+                            // Total a pagar
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Total a pagar: ',
+                                        style: titleAppBar,
+                                      ),
+                                      Text(
+                                        '\$${_.totalPayment.toStringAsFixed(2)}',
+                                        style: priceTotalItems,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                      const SizedBox(height: 20),
-                      _.deliverySelected == 'estafeta'
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      // Detail payment
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 12,
+                              offset: const Offset(0, 8),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Elige el método de pago:',
+                              style: titleAppBar,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: DropdownButton<String>(
+                                key: const Key('3'),
+                                value: _.methodPaySelect,
+                                elevation: 2,
+                                items: [
+                                  DropdownMenuItem(
+                                    key: const Key('1'),
+                                    value: 'Mercado pago',
+                                    child: Text(
+                                      'Mercado pago',
+                                      style: titlePromotionProduct,
+                                    ),
+                                  ),
+                                  DropdownMenuItem(
+                                    key: const Key('2'),
+                                    value: 'Pago adelantado en el local',
+                                    child: Text(
+                                      'Pago adelantado en el local',
+                                      style: titlePromotionProduct,
+                                    ),
+                                  ),
+                                  DropdownMenuItem(
+                                    key: const Key('4'),
+                                    value: 'Pago adelantado por transferencia',
+                                    child: Text(
+                                      'Pago adelantado por transferencia',
+                                      style: titlePromotionProduct,
+                                    ),
+                                  ),
+                                ],
+                                onChanged: (c) {
+                                  _.selectMethodPay(c!);
+                                },
+                              ),
+                            ),
+                            if (_.methodPaySelect! ==
+                                'Pago adelantado por transferencia')
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'Tap para copiar:',
+                                    style: titleAppBar,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                        const ClipboardData(
+                                          text: '0720327320000000378440',
+                                        ),
+                                      ).then(
+                                        (value) => {
+                                          Get.showSnackbar(
+                                            const GetSnackBar(
+                                              duration: Duration(seconds: 1),
+                                              message: 'CBU Copiado!',
+                                            ),
+                                          ),
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: kgraycolor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              'assets/duplicate.svg'),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            '0720327320000000378440',
+                                            style: titleAppBar,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Divider(
+                              color: Colors.black,
+                              thickness: 1,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Total: ',
-                                  style: titleProduct,
+                                _.deliverySelected == 'Retiro en persona'
+                                    ? Text(
+                                        'Retira en:',
+                                        style: titleAppBar,
+                                      )
+                                    : Text(
+                                        'Dirección de entrega:',
+                                        style: titleAppBar,
+                                      ),
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                                Text(
-                                  '${int.parse(_.productBuy[0].price!) + 80} MXN',
-                                  style: titleProduct,
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Total: ',
-                                  style: titleAppBar,
-                                ),
-                                Text(
-                                  '${int.parse(_.productBuy[0].price!)} MXN',
-                                  style: titleSecundary,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/location-marker.svg'),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    Text(
+                                      '${_.myAddress!.city}, ${_.myAddress!.address}',
+                                      style: titleAppBar,
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 80,
+                      ),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                color: Colors.white,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Compra procesada por: '),
-                    Image.asset(
-                      'assets/openpay.png',
-                      height: 70,
+                    ButtonPrimary(
+                      title: 'Finalizar compra',
+                      onPressed: () {
+                        _.newOrder();
+                      },
+                      load: _.isLoadingOrder,
+                      disabled: _.isLoadingOrder,
                     ),
                   ],
                 ),
-                const Spacer(),
-                ButtonPrimary(
-                  title: 'Confirmar ',
-                  onPressed: () {
-                    // _.newOrder();
-                  },
-                  load: _.isLoadingOrder,
-                  disabled: _.isLoadingOrder,
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class ProductAr extends StatelessWidget {
-  ProductModel detail;
-  ProductAr({
-    Key? key,
-    required this.detail,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // height: 130,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Image.network(
-            detail.images![1],
-            height: 100,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  detail.name!,
-                  style: titleProduct,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '\$${detail.price} MXN',
-                  style: titlePromotionProduct,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

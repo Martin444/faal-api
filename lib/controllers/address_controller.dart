@@ -189,20 +189,20 @@ class AddressController extends GetxController {
   }
 
   // Find my address
-  var myAddress = <AddressModel>[];
+  var myAddresses = <AddressModel>[];
 
   void findMyAddress() async {
     if (userToken.accessTokenID != null) {
-      myAddress = [];
+      myAddresses = [];
       var response = await addressService.getMyAddress(
         token: userToken.accessTokenID,
       );
 
       if (response.statusCode == 200) {
-        printInfo(info: response.body.toString());
         var jsonConver = jsonDecode(response.body);
         jsonConver.forEach((e) {
-          myAddress.add(AddressModel(
+          printInfo(info: e['id']);
+          myAddresses.add(AddressModel(
             id: e['id'],
             country: e['country'],
             city: e['city'],

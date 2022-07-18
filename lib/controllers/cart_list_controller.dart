@@ -54,7 +54,6 @@ class CartListController extends GetxController {
         update();
       }
     } catch (e) {
-      printError(info: e.toString());
       throw Exception('Error al selccionar el producto: $e');
     }
   }
@@ -111,8 +110,8 @@ class CartListController extends GetxController {
             name: prod.name,
             images: prod.images,
             price: double.parse(
-              prod.price!.replaceRange(7, null, ''),
-            ).toString(),
+              prod.price!,
+            ).toStringAsFixed(2),
             quantity: newQuantity,
           );
 

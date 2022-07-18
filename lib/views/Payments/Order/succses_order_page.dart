@@ -1,11 +1,12 @@
+import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
 import 'package:faal/views/Payments/Order/qr_viewer.dart';
+import 'package:faal/views/Payments/Order/widget/pr_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../Models/order_model.dart';
-import '../../../Models/product_model.dart';
 import '../../../controllers/order_controller.dart';
 import '../../../widgets/button_primary.dart';
 
@@ -34,12 +35,7 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
 
         return Scaffold(
           appBar: AppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.transparent,
-              systemNavigationBarContrastEnforced: true,
-            ),
+            systemOverlayStyle: systemDart,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -62,7 +58,7 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
                       style: titleDetail,
                     ),
                     ProductAr(
-                      detail: widget.order!.product!,
+                      detail: widget.order!.products![0],
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -159,47 +155,14 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
+                            children: const [
+                              Text(
                                 'Pago: ',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              widget.order!.methodPay == 'card'
-                                  ? Row(
-                                      children: [
-                                        Image.asset(
-                                          'icons/${widget.order!.creditCard!.brand}.png',
-                                          height: 50,
-                                          package: 'flutter_credit_card',
-                                        ),
-                                        Text(
-                                          'Tarjeta ${widget.order!.creditCard!.type}',
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          widget.order!.creditCard!.cardNumber!
-                                              .replaceAll('X', '*')
-                                              .substring(8),
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Text(
-                                      '${widget.order!.methodPay}',
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
                             ],
                           ),
                         ],
@@ -256,57 +219,6 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
           ),
         );
       },
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class ProductAr extends StatelessWidget {
-  ProductModel detail;
-  ProductAr({
-    Key? key,
-    required this.detail,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // height: 130,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Image.network(
-            detail.images![1],
-            height: 100,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  detail.name!,
-                  style: titleProduct,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '\$${detail.price} MXN',
-                  style: titleProduct,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

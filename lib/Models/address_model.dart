@@ -6,7 +6,7 @@ class AddressModel {
   String? codepostal;
 
   AddressModel({
-    String? id,
+    this.id,
     this.country,
     this.city,
     this.address,

@@ -35,6 +35,7 @@ class ProductsController extends GetxController {
       var response = await ProductServices().getProducts(page: page);
       var jsonResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
+        printInfo(info: response.body);
         productsList = validation.validateProducts(jsonResponse);
         return productsList;
       } else {

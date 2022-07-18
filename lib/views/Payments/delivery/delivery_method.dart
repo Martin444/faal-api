@@ -10,6 +10,7 @@ import 'package:faal/widgets/button_secundary.dart';
 import 'package:faal/widgets/button_with_line_black.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/order_controller.dart';
@@ -43,6 +44,16 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             elevation: 0,
+            leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 15),
+                child: SvgPicture.asset('assets/back.svg'),
+              ),
+            ),
+            leadingWidth: 45,
             title: Text(
               'Método de envío',
               style: titleAppBar,
@@ -53,12 +64,13 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const Text(
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+                Text(
                   '¿Como querés recibir el pedido?',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: titleSecundary,
                 ),
                 const SizedBox(height: 20),
                 DeliveryTile(
@@ -90,15 +102,12 @@ class _DeliveryMethodPageState extends State<DeliveryMethodPage> {
                         _.deliverySelected == 'Entrega a domicilio'
                     ? Column(
                         children: [
-                          const Text(
+                          Text(
                             '¿Dónde querés recibir el pedido?',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            style: titleSecundary,
                           ),
-                          const ListAddres(),
                           const SizedBox(height: 20),
+                          const ListAddres(),
                           ButtonPrimaryIcon(
                             path: 'assets/plus.svg',
                             title: 'Agregar direccion',
