@@ -7,6 +7,7 @@ class OrderModel {
   List<ProductModel>? products;
   UserModel? billing;
   AddressModel? deliveryAddress;
+  String? woorderId;
   String? deliveryType;
   String? methodPay;
   String? status;
@@ -19,6 +20,7 @@ class OrderModel {
     this.deliveryType,
     this.deliveryAddress,
     this.billing,
+    this.woorderId,
     this.methodPay,
     this.status,
     this.description,

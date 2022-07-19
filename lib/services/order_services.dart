@@ -31,6 +31,7 @@ class OrderServices {
       var dataPross = {
         "products": prods,
         "address": {
+          "id": data.deliveryAddress!.id,
           "country": 'AR',
           "city": data.deliveryAddress!.city,
           "cpcode": data.deliveryAddress!.codepostal,
@@ -58,22 +59,6 @@ class OrderServices {
     }
   }
 
-  Future<http.Response> getCards(String? token) async {
-    try {
-      var url = Uri.parse('$baseUrl/users/getCards');
-      var response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
-      return response;
-    } catch (e) {
-      printError(info: e.toString());
-      throw Exception(e);
-    }
-  }
-
   Future<http.Response> getMyOrders(String? token) async {
     try {
       var url = Uri.parse('$baseUrl/order/me');
@@ -90,26 +75,10 @@ class OrderServices {
     }
   }
 
-  Future<http.Response> getMySellers(String? token) async {
+  Future<http.Response> getOneOrder(String? token, String? orderId) async {
     try {
-      var url = Uri.parse('$baseUrl/order/sellers');
-      var response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
-      return response;
-    } catch (e) {
-      printError(info: e.toString());
-      throw Exception(e);
-    }
-  }
-
-  Future<http.Response> validateOrder(String? token, String? orderId) async {
-    try {
-      var url = Uri.parse('$baseUrl/order/validate/$orderId');
-      var response = await http.post(
+      var url = Uri.parse('$baseUrl/orders/$orderId');
+      var response = await http.get(
         url,
         headers: {
           'Authorization': 'Bearer $token',

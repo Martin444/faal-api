@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:faal/Models/user_model.dart';
+import 'package:faal/views/Payments/Order/succses_order_page.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
@@ -115,6 +117,7 @@ class OrderController extends GetxController {
   // Post Order
 
   bool isLoadingOrder = false;
+  String? newOrderID;
   var newOrdering = OrderModel();
   ProductModel? productOrdering;
   CreaditCardModel? cardPaymentOrdering;
@@ -137,12 +140,27 @@ class OrderController extends GetxController {
         newOrdering,
       );
 
+      var jsonResponse = jsonDecode(response.body);
       if (response.statusCode == 201) {
         isLoadingOrder = false;
+        newOrderID = '${jsonResponse['orderId']}';
         update();
-        var jsonResponse = jsonDecode(response.body);
-        printInfo(info: 'Esta es la respuesta ${jsonResponse['id']}');
-        proccessCheckout(jsonResponse['id']);
+
+        if (jsonResponse['status'] == 'ok') {
+          Get.off(() => SuccesOrderPage(order: newOrderID));
+        } else {
+          printInfo(info: 'Esta es la respuesta ${jsonResponse}');
+          proccessCheckout(jsonResponse['prefenceID']['id']);
+        }
+      } else if (response.statusCode == 500) {
+        isLoadingOrder = false;
+        update();
+        printError(info: 'Este es el error ${response.statusCode}');
+        printError(info: 'Este es el error $jsonResponse');
+      } else if (response.statusCode == 401) {
+        isLoadingOrder = false;
+        update();
+        printError(info: 'Este es el error $jsonResponse');
       }
     } catch (e) {
       isLoadingOrder = false;
@@ -168,41 +186,130 @@ class OrderController extends GetxController {
     }
   }
 
+  void processPaymentResponse(Object? ob) {
+    var responseJson = jsonDecode(ob.toString());
+    printInfo(info: 'Processs Payment with $responseJson');
+    if (responseJson['resultCode'] != '0') {
+      printInfo(info: 'Payment ID ${responseJson['payment']['id']}');
+      printInfo(info: 'Payment status ${responseJson['payment']['status']}');
+      if (responseJson['payment']['status'] == 'approved') {
+        Get.off(() => SuccesOrderPage(order: newOrderID));
+      }
+      printInfo(
+          info: 'Payment status ${responseJson['payment']['statusDetail']}');
+    }
+  }
+
+  // GET ORDER
+  OrderModel? orderDetail;
+  bool isLoadDetailOrder = true;
+
+  void getOneOrderDetail(String? orderId) async {
+    try {
+      var response = await serviceOrder.getOneOrder(
+        user.accessTokenID,
+        orderId,
+      );
+
+      var responseJson = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        var prods = <ProductModel>[];
+        try {
+          responseJson['products'].forEach((e) {
+            prods.add(
+              ProductModel(
+                id: e['id'],
+                name: e['name'],
+                quantity: e['quantity'],
+                price: e['price'].toString(),
+                regularPrice: e['price'].toString(),
+                salePrice: e['price'].toString(),
+                images: [e['image']['src']],
+              ),
+            );
+          });
+        } catch (e) {
+          throw Exception('Error al cargar product $e');
+        }
+        UserModel? userData;
+        try {
+          userData = UserModel(
+            id: responseJson['billing']['id'],
+            photoUrl: responseJson['billing']['photoURL'],
+            name: responseJson['billing']['name'],
+            email: responseJson['billing']['email'],
+            role: responseJson['billing']['role'],
+          );
+        } catch (e) {
+          throw Exception('Error al cargar al usuario $e');
+        }
+        AddressModel? addresData;
+        try {
+          addresData = AddressModel(
+            id: responseJson['deliveryAddress']['id'],
+            city: responseJson['deliveryAddress']['city'],
+            address: responseJson['deliveryAddress']['address1'],
+            country: responseJson['deliveryAddress']['country'],
+            codepostal: responseJson['deliveryAddress']['cpcode'].toString(),
+          );
+        } catch (e) {
+          throw Exception('Error al cargar la direccion $e');
+        }
+
+        orderDetail = OrderModel(
+          id: responseJson['id'],
+          products: prods,
+          deliveryType: responseJson['deliveryType'],
+          woorderId: responseJson['worderId'],
+          billing: userData,
+          deliveryAddress: addresData,
+          methodPay: responseJson['methodPay'],
+          status: responseJson['status'],
+          amount: double.parse(responseJson['amount']),
+        );
+        isLoadDetailOrder = false;
+        update();
+      }
+      printInfo(info: 'Este es Order response ${response.body}');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   // Validate upgrade order
   bool isValidating = false;
 
-  void validateTakeOrder(String orderID) async {
-    var validationID = await FlutterBarcodeScanner.scanBarcode(
-      "#ff6666",
-      "LISTO",
-      false,
-      ScanMode.BARCODE,
-    );
-
-    if (validationID == orderID) {
-      isValidating = true;
-      update();
-      printInfo(info: 'Scanner result $validationID');
-      var response = await serviceOrder.validateOrder(
-        user.accessTokenID,
-        orderID,
-      );
-      if (response.statusCode == 201) {
-        // findMySellers();
-
-        isValidating = false;
-        update();
-        Get.back();
-      }
-      printInfo(info: 'Order status ${response.statusCode}');
-      printInfo(info: 'Order Response ${response.body}');
-    } else {
-      Get.showSnackbar(
-        const GetSnackBar(
-          message: 'La orden escaneada es incorrecta',
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
-  }
+  // void validateTakeOrder(String orderID) async {
+  //   var validationID = await FlutterBarcodeScanner.scanBarcode(
+  //     "#ff6666",
+  //     "LISTO",
+  //     false,
+  //     ScanMode.BARCODE,
+  //   );
+  //   if (validationID == orderID) {
+  //     isValidating = true;
+  //     update();
+  //     printInfo(info: 'Scanner result $validationID');
+  //     var response = await serviceOrder.validateOrder(
+  //       user.accessTokenID,
+  //       orderID,
+  //     );
+  //     if (response.statusCode == 201) {
+  //       // findMySellers();
+  //       isValidating = false;
+  //       update();
+  //       Get.back();
+  //     }
+  //     printInfo(info: 'Order status ${response.statusCode}');
+  //     printInfo(info: 'Order Response ${response.body}');
+  //   } else {
+  //     Get.showSnackbar(
+  //       const GetSnackBar(
+  //         message: 'La orden escaneada es incorrecta',
+  //         duration: Duration(seconds: 2),
+  //       ),
+  //     );
+  //   }
+  // }
 }

@@ -25,6 +25,7 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   final eventResponse = const EventChannel('faal.martinfarel.com/response');
+  var orderproces = Get.find<OrderController>();
 
   StreamSubscription? _suscriptiomStream;
 
@@ -32,7 +33,7 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     _suscriptiomStream = eventResponse.receiveBroadcastStream().listen(
       (event) {
-        printInfo(info: 'Soy el event response ${event.runtimeType}');
+        orderproces.processPaymentResponse(event);
       },
     );
     super.initState();
