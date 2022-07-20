@@ -9,7 +9,7 @@ class SnackMessagesHandle {
       GetSnackBar(
         message: message!,
         backgroundColor: kredDesensa,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 4),
         snackPosition: SnackPosition.TOP,
       ),
     );

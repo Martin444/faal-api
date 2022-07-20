@@ -161,7 +161,13 @@ class OrderController extends GetxController {
           isLoadingOrder = false;
           update();
           printError(info: 'Este es el error ${response.statusCode}');
-          printError(info: 'Este es el error $jsonResponse');
+          printError(
+              info: 'Este es el error ${jsonResponse['response']['name']}');
+          var nameError = jsonResponse['response']['name'];
+          if (nameError == 'MercadoPagoError') {
+            SnackMessagesHandle().snackErrorHandle(
+                'Requiere credenciales [${response.statusCode}], cambia el metodo de pago');
+          }
         } else if (response.statusCode == 401) {
           isLoadingOrder = false;
           update();
@@ -171,6 +177,7 @@ class OrderController extends GetxController {
         isLoadingOrder = false;
         update();
         printError(info: 'Este es el error $e');
+        SnackMessagesHandle().snackErrorHandle('Hubo un error');
         throw Exception(e);
       }
     } else {
