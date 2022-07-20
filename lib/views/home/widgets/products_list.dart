@@ -32,6 +32,9 @@ class _ProductsListState extends State<ProductsList> {
         return Column(
           children: [
             const TitleLine(title: 'DESTACADOS'),
+            const SizedBox(
+              height: 10,
+            ),
             SizedBox(
               height: Get.height * 0.35,
               child: GridView.builder(
@@ -40,10 +43,10 @@ class _ProductsListState extends State<ProductsList> {
                 itemCount: _.productsList.sublist(0, 9).length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  mainAxisExtent: 175,
-                  childAspectRatio: 0.78,
+                  mainAxisExtent: 165,
+                  childAspectRatio: 0.2,
                   crossAxisSpacing: 0,
-                  mainAxisSpacing: 20,
+                  mainAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
                   return DelayedReveal(
@@ -64,10 +67,10 @@ class _ProductsListState extends State<ProductsList> {
                 itemCount: _.productsList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  mainAxisExtent: 175,
-                  childAspectRatio: 0.78,
+                  mainAxisExtent: 165,
+                  childAspectRatio: 0.2,
                   crossAxisSpacing: 0,
-                  mainAxisSpacing: 20,
+                  mainAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
                   return DelayedReveal(

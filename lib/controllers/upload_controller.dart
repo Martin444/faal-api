@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:images_picker/images_picker.dart';
 
 import '../Models/brand_model.dart';
 import '../Models/category_model.dart';
@@ -74,8 +75,11 @@ class UploadController extends GetxController {
 
   uploadPhotoProduct() async {
     Get.back();
-    final image = await ImagePicker().pickMultiImage();
-    if (image!.isEmpty) {
+    List<Media>? res = await ImagesPicker.pick(
+      count: 3,
+      pickType: PickType.image,
+    );
+    if (res!.isEmpty) {
       Get.snackbar(
         'Error',
         'No selecciono ninguna imagen',
@@ -83,8 +87,8 @@ class UploadController extends GetxController {
       );
       return;
     }
-    for (var i = 0; i < image.length; i++) {
-      var foto = File(image[i].path);
+    for (var i = 0; i < res.length; i++) {
+      var foto = File(res[i].path);
       _listPhotos.add(foto);
     }
     update();
@@ -103,51 +107,6 @@ class UploadController extends GetxController {
     update();
     Get.back();
   }
-
-  // getGarmentList() async {
-  //   _isLoadingCategorys = true;
-  //   var garmentResponse = await serviceCategoy.getGarments();
-  //   var parseResponse = jsonDecode(garmentResponse.body);
-  //   if (garmentResponse.statusCode == 200) {
-  //     parseResponse.forEach((e) {
-  //       var subGarment = <SubGarmentModel>[];
-  //       e['sub'].forEach((b) {
-  //         subGarment.add(
-  //           SubGarmentModel(
-  //             id: b['id'],
-  //             nameGarment: b['nameGarment'],
-  //             ownerGarment: b['ownerGarment'],
-  //           ),
-  //         );
-  //       });
-  //       garmentList.add(
-  //         GarmentModel(
-  //           id: e['id'],
-  //           nameGarment: e['nameGarment'],
-  //           ownerCategory: e['ownerCategory'],
-  //           subGarment: subGarment,
-  //         ),
-  //       );
-  //     });
-  //     _isLoadingCategorys = false;
-  //     update();
-  //   }
-  // }
-
-  // selectGarment(GarmentModel garment) {
-  //   _garmentSelected = garment;
-  //   _subGarmentSelected = null;
-  //   update();
-  //   Get.back();
-  // }
-
-  // selectSubGarmet(SubGarmentModel garment) {
-  //   _subGarmentSelected = garment;
-  //   _garmentSelected = null;
-  //   update();
-  //   Get.back();
-  //   Get.back();
-  // }
 
   selectWails(String wails) {
     _wailsSelect = wails;
@@ -207,51 +166,4 @@ class UploadController extends GetxController {
       }
     }
   }
-
-  // Future<ProductModel> uploadProduct({
-  //   List<String>? photos,
-  //   String? title,
-  //   String? description,
-  //   String? price,
-  // }) async {
-  //   try {
-  //     var requestProst = jsonEncode({
-  //       "titleProduct": title,
-  //       "description": description,
-  //       "categoryId": categorySelected!.id,
-  //       "status": _statusGarment,
-  //       "brandId": brandSelected!.id,
-  //       "wails": wailsSelect,
-  //       "ownerId": userInfo.userData!.id,
-  //       "price": price,
-  //       "stock": '0',
-  //       'image': photos,
-  //     });
-  //     var responsePost = await serviceProd.postNewProduct(
-  //       requestProst,
-  //       userInfo.accessTokenID,
-  //     );
-  //     var upladedProduct = jsonDecode(responsePost.body);
-  //     _listPhotos = [];
-  //     _photoTaked = null;
-  //     _categorySelected = null;
-  //     _brandSelected = null;
-  //     _wailsSelect = null;
-  //     _statusGarment = null;
-  //     printError(info: upladedProduct.toString());
-  //     // return ProductModel(
-  //     //   id: upladedProduct['id'],
-  //     //   title: upladedProduct['titleProduct'],
-  //     //   description: upladedProduct['description'],
-  //     //   status: upladedProduct['status'],
-  //     //   price: upladedProduct['price'],
-  //     //   state: upladedProduct['state'],
-  //     //   image: upladedProduct['image'],
-  //     // );
-  //   } catch (e) {
-  //     printError(info: e.toString());
-  //     throw Exception(e);
-  //   }
-  // }
-
 }

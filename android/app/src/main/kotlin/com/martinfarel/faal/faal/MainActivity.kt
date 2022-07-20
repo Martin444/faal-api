@@ -21,7 +21,7 @@ import com.google.gson.Gson
 import androidx.annotation.NonNull
 
 class MainActivity: FlutterActivity(), EventChannel.StreamHandler {
-    private val TAG = "eventchannelsample";
+    private val TAG = "eventchannelsample"; 
     private val REQUEST_CODE = 1;
     private var applicationContext: Context? = null
     private var activityPluginBinding: ActivityPluginBinding? = null
@@ -53,8 +53,6 @@ class MainActivity: FlutterActivity(), EventChannel.StreamHandler {
          checkout.startPayment(this@MainActivity, REQUEST_CODE);
     }
 
-    
-    
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
       Log.w(TAG, "==============Result MP=============>" + requestCode + " " + resultCode + " " + data);
       if (requestCode == this.requestCode) {

@@ -1,3 +1,4 @@
+import 'package:faal/utils/colors.dart';
 import 'package:faal/utils/styles_context.dart';
 import 'package:faal/utils/text_styles.dart';
 import 'package:faal/views/Payments/Order/qr_viewer.dart';
@@ -5,6 +6,7 @@ import 'package:faal/views/Payments/Order/widget/pr_tile.dart';
 import 'package:faal/views/responses/wait_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../Models/order_model.dart';
@@ -42,11 +44,27 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
           return const WaitPage();
         } else {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               systemOverlayStyle: systemDart,
               foregroundColor: Colors.black,
               backgroundColor: Colors.white,
               elevation: 0,
+              leading: SizedBox(
+                height: 40,
+                child: TextButton(
+                  onPressed: () {
+                    Get.back();
+                    Get.back();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/back.svg',
+                    width: 30,
+                    height: 30,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
               title: Text(
                 '¡Gracias por tu compra!',
                 style: titleAppBar,
@@ -58,8 +76,9 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 26),
                   Center(
-                    child: Image.asset('assets/logo.png'),
+                    child: SvgPicture.asset('assets/okeylogo.svg'),
                   ),
                   const SizedBox(height: 26),
                   Text(
@@ -127,18 +146,48 @@ class _SuccesOrderPageState extends State<SuccesOrderPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              '',
+                              'Tipo: ',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              _.orderDetail!.methodPay!,
+                              '${_.orderDetail!.deliveryType}',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 10,
+                    ),
+                    decoration: decorationMethod,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/cash.svg',
+                              color: kpurplecolor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              _.orderDetail!.methodPay!,
+                              style: titleAppBar,
                             ),
                           ],
                         ),

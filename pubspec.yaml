@@ -34,7 +34,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
   animate_do: ^2.1.0
-  image_picker: ^0.8.5+3
+  images_picker: ^1.2.11
   device_info_plus: ^4.0.0
   confetti: ^0.7.0
   camera: ^0.9.8+1

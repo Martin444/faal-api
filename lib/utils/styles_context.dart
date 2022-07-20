@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'colors.dart';
+
 var systemDart = const SystemUiOverlayStyle(
   statusBarBrightness: Brightness.dark,
   statusBarIconBrightness: Brightness.dark,
@@ -9,7 +11,7 @@ var systemDart = const SystemUiOverlayStyle(
 );
 
 var decorationMethod = BoxDecoration(
-  color: Colors.white,
+  color: kModalcolor,
   borderRadius: BorderRadius.circular(10),
   boxShadow: [
     BoxShadow(

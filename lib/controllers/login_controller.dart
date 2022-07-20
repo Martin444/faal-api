@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
+import 'package:faal/controllers/notifications_controllers.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:images_picker/images_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Models/user_model.dart';
@@ -35,6 +37,7 @@ class LoginController extends GetxController {
 
   LoginServices getService = LoginServices();
   UploadService serviceUp = UploadService();
+  var notifyPermision = Get.find<NotificationsControllers>();
 
   File? _photoTaked;
   File? get photoTaked => _photoTaked;
@@ -135,10 +138,8 @@ class LoginController extends GetxController {
   // Future<bool> loginWhitGoogle() async {
   //   try {
   //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
   //     final GoogleSignInAuthentication googleAuth =
   //         await googleUser!.authentication;
-
   //     final OAuthCredential credential = GoogleAuthProvider.credential(
   //       idToken: googleAuth.idToken,
   //       accessToken: googleAuth.accessToken,
@@ -155,7 +156,6 @@ class LoginController extends GetxController {
   // Future<bool> loginwithFacebook() async {
   //   try {
   //     final LoginResult? result = await FacebookAuth.instance.login();
-
   //     printInfo(info: result!.accessToken!.token.toString());
   //     switch (result.status) {
   //       case LoginStatus.success:
@@ -168,9 +168,7 @@ class LoginController extends GetxController {
   //           );
   //           final userCredential =
   //               await _auth.signInWithCredential(facebookCredential);
-
   //           await validatingUserSocial(userCredential.user!);
-
   //           return true;
   //         } on FirebaseAuthException catch (e) {
   //           printError(info: e.code.toString());
@@ -191,7 +189,6 @@ class LoginController extends GetxController {
   //           }
   //           _isLoadingSocial = false;
   //           update();
-
   //           return false;
   //         }
   //       case LoginStatus.cancelled:
@@ -209,7 +206,6 @@ class LoginController extends GetxController {
   // Future<bool> validatingUserSocial(User user) async {
   //   try {
   //     SharedPreferences prefs = await SharedPreferences.getInstance();
-
   //     var resopnse = await getService.loginSocial(
   //       uid: user.uid,
   //       name: user.displayName,
@@ -220,7 +216,6 @@ class LoginController extends GetxController {
   //     var jsonResponse = jsonDecode(resopnse.body);
   //     _accessTokenID = jsonResponse['access_token'];
   //     prefs.setString('accessTokenID', _accessTokenID!);
-
   //     validateUserInit(_accessTokenID!);
   //     _isLoadingSocial = false;
   //     update();
@@ -366,16 +361,17 @@ class LoginController extends GetxController {
               return false;
             }
           } else {
+            Get.showSnackbar(
+              const GetSnackBar(
+                message: 'Hubo un error subiendo la foto de perfil',
+                duration: Duration(seconds: 2),
+              ),
+            );
             return false;
           }
         } catch (e) {
           _isLoading = false;
-          Get.showSnackbar(
-            const GetSnackBar(
-              message: 'Todos los campos son obligatorios',
-              duration: Duration(seconds: 2),
-            ),
-          );
+
           printError(
             info: '$e',
           );
@@ -389,17 +385,23 @@ class LoginController extends GetxController {
       }
     } else {
       _isLoading = false;
-      HapticFeedback.vibrate();
       return false;
     }
   }
 
   uploadPhotoProfile() async {
     Get.back();
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    var foto = File(image!.path);
+    List<Media>? res = await ImagesPicker.pick(
+      count: 1,
+      pickType: PickType.image,
+    );
+
+    var foto = File(res![0].path);
     _photoProfile = foto;
     update();
+    // final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    // var foto = File(image!.path);
+    // _photoProfile = foto;
   }
 
   uploadProfile() {

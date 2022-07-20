@@ -1,4 +1,5 @@
 import 'package:faal/controllers/cart_list_controller.dart';
+import 'package:faal/controllers/notifications_controllers.dart';
 import 'package:faal/controllers/products/products_controller.dart';
 import 'package:faal/controllers/scroll_controllers.dart';
 import 'package:faal/controllers/search_controller.dart';
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
     Get.put<CartListController>(CartListController());
 
     Get.put<SearchController>(SearchController());
+
+    Get.put<NotificationsControllers>(NotificationsControllers());
 
     Get.put<LoginController>(LoginController());
 

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:faal/Models/user_model.dart';
+import 'package:faal/helps/snacks_messages.dart';
+import 'package:faal/views/Login/login_page.dart';
 import 'package:faal/views/Payments/Order/succses_order_page.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -123,50 +126,55 @@ class OrderController extends GetxController {
   CreaditCardModel? cardPaymentOrdering;
 
   void newOrder() async {
-    try {
-      isLoadingOrder = true;
-      update();
-      newOrdering = OrderModel(
-        products: productBuy,
-        billing: user.userData,
-        deliveryAddress: myAddress,
-        methodPay: methodPaySelect,
-        amount: totalPayment,
-        status: 'init',
-      );
-
-      var response = await serviceOrder.newOrder(
-        user.accessTokenID,
-        newOrdering,
-      );
-
-      var jsonResponse = jsonDecode(response.body);
-      if (response.statusCode == 201) {
-        isLoadingOrder = false;
-        newOrderID = '${jsonResponse['orderId']}';
+    if (user.accessTokenID != null) {
+      try {
+        isLoadingOrder = true;
         update();
+        newOrdering = OrderModel(
+          products: productBuy,
+          billing: user.userData,
+          deliveryAddress: myAddress,
+          deliveryType: deliverySelected,
+          methodPay: methodPaySelect,
+          amount: totalPayment,
+          status: 'init',
+        );
 
-        if (jsonResponse['status'] == 'ok') {
-          Get.off(() => SuccesOrderPage(order: newOrderID));
-        } else {
-          printInfo(info: 'Esta es la respuesta ${jsonResponse}');
-          proccessCheckout(jsonResponse['prefenceID']['id']);
+        var response = await serviceOrder.newOrder(
+          user.accessTokenID,
+          newOrdering,
+        );
+
+        var jsonResponse = jsonDecode(response.body);
+        if (response.statusCode == 201) {
+          isLoadingOrder = false;
+          newOrderID = '${jsonResponse['orderId']}';
+          update();
+
+          if (jsonResponse['status'] == 'ok') {
+            Get.off(() => SuccesOrderPage(order: newOrderID));
+          } else {
+            printInfo(info: 'Esta es la respuesta ${jsonResponse}');
+            proccessCheckout(jsonResponse['prefenceID']['id']);
+          }
+        } else if (response.statusCode == 500) {
+          isLoadingOrder = false;
+          update();
+          printError(info: 'Este es el error ${response.statusCode}');
+          printError(info: 'Este es el error $jsonResponse');
+        } else if (response.statusCode == 401) {
+          isLoadingOrder = false;
+          update();
+          printError(info: 'Este es el error $jsonResponse');
         }
-      } else if (response.statusCode == 500) {
+      } catch (e) {
         isLoadingOrder = false;
         update();
-        printError(info: 'Este es el error ${response.statusCode}');
-        printError(info: 'Este es el error $jsonResponse');
-      } else if (response.statusCode == 401) {
-        isLoadingOrder = false;
-        update();
-        printError(info: 'Este es el error $jsonResponse');
+        printError(info: 'Este es el error $e');
+        throw Exception(e);
       }
-    } catch (e) {
-      isLoadingOrder = false;
-      update();
-      printError(info: 'Este es el error $e');
-      throw Exception(e);
+    } else {
+      Get.to(() => const LoginPage());
     }
   }
 
@@ -196,7 +204,8 @@ class OrderController extends GetxController {
         Get.off(() => SuccesOrderPage(order: newOrderID));
       }
       printInfo(
-          info: 'Payment status ${responseJson['payment']['statusDetail']}');
+        info: 'Payment status ${responseJson['payment']['statusDetail']}',
+      );
     }
   }
 
@@ -212,6 +221,7 @@ class OrderController extends GetxController {
       );
 
       var responseJson = jsonDecode(response.body);
+      printInfo(info: 'Este es Order response $responseJson');
 
       if (response.statusCode == 200) {
         var prods = <ProductModel>[];
@@ -271,8 +281,9 @@ class OrderController extends GetxController {
         isLoadDetailOrder = false;
         update();
       }
-      printInfo(info: 'Este es Order response ${response.body}');
-    } catch (e) {
+    } on HttpException catch (e) {
+      SnackMessagesHandle()
+          .snackErrorHandle('Error al mostrar esta información(${e.message})');
       throw Exception(e);
     }
   }

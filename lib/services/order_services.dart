@@ -37,6 +37,7 @@ class OrderServices {
           "cpcode": data.deliveryAddress!.codepostal,
           "address1": data.deliveryAddress!.address,
         },
+        "deliveryType": data.deliveryType,
         "pymentType": data.methodPay,
         "amount": data.amount,
         "status": data.status
