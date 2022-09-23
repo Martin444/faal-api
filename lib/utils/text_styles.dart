@@ -1,0 +1,188 @@
+import 'package:flutter/material.dart';
+
+import 'colors.dart';
+
+// Login
+
+var richTextStyle = TextStyle(
+  fontSize: 17,
+  fontFamily: 'Barlow',
+  fontWeight: FontWeight.w400,
+  color: kTextColorLigth,
+);
+
+var richUrlTextStyle = TextStyle(
+  fontSize: 17,
+  fontFamily: 'Barlow',
+  fontWeight: FontWeight.bold,
+  color: kTextColorLigth,
+);
+
+var titleAppBar = TextStyle(
+  color: kTextColor,
+  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Barlow',
+);
+
+var titleAppBarWithe = const TextStyle(
+  color: Colors.white,
+  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Barlow',
+);
+
+var buttonStylePrimary = const TextStyle(
+  color: Colors.white,
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Inter',
+);
+
+var inputSearchStyle = const TextStyle(
+  color: Color.fromARGB(255, 110, 110, 110),
+  fontSize: 15,
+  fontFamily: 'Barlow',
+  fontWeight: FontWeight.w400,
+);
+
+var titleSecundary = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Barlow',
+  color: kTextColor,
+);
+
+// PROOTIONS
+
+var titlePromotionProduct = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Barlow',
+  color: kTextColor,
+);
+
+var pricePromotionProduct = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Barlow',
+  color: kBackground,
+);
+
+// PRODUCTS
+
+var titleProduct = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var titleButtonFlag = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Barlow',
+  color: kBackground,
+);
+
+var priceProduct = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceDescontProduct = TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.w700,
+  decoration: TextDecoration.lineThrough,
+  fontFamily: 'Inter',
+  color: kTextColor.withOpacity(0.8),
+);
+
+var tagProduct = TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Inter',
+  color: kTextColorLigth,
+);
+
+var tagProduct2 = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Inter',
+  color: kTextColorLigth,
+);
+
+// DETAIL
+
+var titleDetail = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceDetail = TextStyle(
+  fontSize: 21,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+// CART
+
+var subtitleCart = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceCartItem = TextStyle(
+  fontSize: 19,
+  fontWeight: FontWeight.w800,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+var priceTotalItems = TextStyle(
+  fontSize: 23,
+  fontWeight: FontWeight.w900,
+  fontFamily: 'Inter',
+  color: kTextColor,
+);
+
+// LOGIN
+
+// var buttonStylePrimary = const TextStyle(
+//   fontSize: 16,
+//   fontWeight: FontWeight.w600,
+//   fontFamily: 'AvantGarde',
+//   color: Colors.white,
+//   fontStyle: FontStyle.normal,
+// );
+
+var buttonStylePrimaryBlack = const TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: Colors.black,
+  fontStyle: FontStyle.normal,
+);
+
+var buttonStylePrimarygreen = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: kgreenSucces,
+  fontStyle: FontStyle.normal,
+);
+
+var buttonStylePrimaryBlues = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'AvantGarde',
+  color: kpurplecolor,
+  fontStyle: FontStyle.normal,
+);
