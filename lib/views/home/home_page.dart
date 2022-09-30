@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/scroll_controllers.dart';
+import '../../helps/modals.dart';
 import 'widgets/products_list.dart';
 import 'widgets/promotion_list.dart';
 
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        ModalsHelpers().modalConfirm();
+        return true;
+      },
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
