@@ -158,14 +158,14 @@ class DrawMenu extends StatelessWidget {
                           height: 45,
                         ),
                         SvgPicture.asset('assets/pay-mastercard.svg'),
-                        SvgPicture.asset('assets/pay-visa.svg')
+                        Image.asset(
+                          'assets/pay-naranja.png',
+                          fit: BoxFit.contain,
+                          width: 45,
+                          height: 40,
+                        ),
+                        SvgPicture.asset('assets/pay-visa.svg'),
                       ],
-                    ),
-                    Image.asset(
-                      'assets/pay-naranja.png',
-                      fit: BoxFit.contain,
-                      width: 50,
-                      height: 100,
                     ),
                   ],
                 );
