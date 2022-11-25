@@ -16,6 +16,7 @@ class TextInputField extends StatelessWidget {
   String? errorText;
   Function? function;
   Function(String)? functionSubmited;
+  Function(String)? onFunctionSubmited;
 
   TextInputField({
     Key? key,
@@ -27,6 +28,7 @@ class TextInputField extends StatelessWidget {
     this.errorText,
     this.function,
     this.functionSubmited,
+    this.onFunctionSubmited,
     this.textInputAction,
   }) : super(key: key);
 
@@ -81,6 +83,7 @@ class TextInputField extends StatelessWidget {
               : [],
           textCapitalization: TextCapitalization.sentences,
           onChanged: functionSubmited,
+          onSubmitted: onFunctionSubmited,
           style: inputSearchStyle,
           decoration: InputDecoration(
             errorText: errorText,

@@ -190,7 +190,7 @@ class OrderController extends GetxController {
 
       final response =
           await channelMp.invokeMethod('mercadoPago', <String, dynamic>{
-        "publicKey": 'TEST-372a5910-124d-4ce8-a283-98a6609f2598',
+        "publicKey": 'APP_USR-661865c5-bb7f-47dd-94e3-82ebe8225ddc',
         "preferenceId": id!,
       });
 
@@ -202,16 +202,16 @@ class OrderController extends GetxController {
 
   void processPaymentResponse(Object? ob) {
     var responseJson = jsonDecode(ob.toString());
-    printInfo(info: 'Processs Payment with $responseJson');
+    // printInfo(info: 'Processs Payment with $responseJson');
     if (responseJson['resultCode'] != '0') {
-      printInfo(info: 'Payment ID ${responseJson['payment']['id']}');
-      printInfo(info: 'Payment status ${responseJson['payment']['status']}');
+      // printInfo(info: 'Payment ID ${responseJson['payment']['id']}');
+      // printInfo(info: 'Payment status ${responseJson['payment']['status']}');
       if (responseJson['payment']['status'] == 'approved') {
         Get.off(() => SuccesOrderPage(order: newOrderID));
       }
-      printInfo(
-        info: 'Payment status ${responseJson['payment']['statusDetail']}',
-      );
+      // printInfo(
+      //   info: 'Payment status ${responseJson['payment']['statusDetail']}',
+      // );
     }
   }
 
@@ -227,7 +227,7 @@ class OrderController extends GetxController {
       );
 
       var responseJson = jsonDecode(response.body);
-      printInfo(info: 'Este es Order response $responseJson');
+      // printInfo(info: 'Este es Order response $responseJson');
 
       if (response.statusCode == 200) {
         var prods = <ProductModel>[];

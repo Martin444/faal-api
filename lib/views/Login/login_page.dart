@@ -1,3 +1,4 @@
+import 'package:faal_new2/views/Login/recovery_password.dart';
 import 'package:faal_new2/views/Login/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -105,6 +106,22 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextSpan(
                               text: ' Registrate',
+                              style: richUrlTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Get.off(() => const RecoveryPasswordPage());
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '¿Olvidaste tu contraseña?',
                               style: richUrlTextStyle,
                             ),
                           ],

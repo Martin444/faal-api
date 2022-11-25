@@ -200,4 +200,50 @@ class LoginServices {
       throw Exception(err);
     }
   }
+
+  Future<http.Response> findEmailforRecovery(String email, String code) async {
+    try {
+      var url = Uri.parse('$baseUrl/user/password');
+      var msg = jsonEncode({
+        "email": email.toLowerCase(),
+        "code": code,
+      });
+      var response = await http.post(
+        url,
+        body: msg,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      );
+
+      return response;
+    } catch (err) {
+      printError(info: err.toString());
+      throw Exception(err);
+    }
+  }
+
+  Future<http.Response> changePassword(String email, String newPass) async {
+    try {
+      var url = Uri.parse('$baseUrl/user/change-password');
+      var msg = jsonEncode({
+        "email": email.toLowerCase(),
+        "newPassword": newPass,
+      });
+      var response = await http.post(
+        url,
+        body: msg,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      );
+
+      return response;
+    } catch (err) {
+      printError(info: err.toString());
+      throw Exception(err);
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Models/user_model.dart';
 import '../services/login_services.dart';
 import '../services/upload_service.dart';
+import '../views/Login/login_page.dart';
 import 'notifications_controllers.dart';
 
 class LoginController extends GetxController {
@@ -105,7 +106,7 @@ class LoginController extends GetxController {
       } else {
         _textValidateEmail = 'Por favor, introduzca una dirección de correo';
         update();
-        return true;
+        return false;
       }
     }
   }
@@ -427,8 +428,6 @@ class LoginController extends GetxController {
 
   takePicture(XFile photo) async {
     var newPhoto = File(photo.path);
-    var ex = await newPhoto.exists();
-    printInfo(info: ex.toString());
     _photoTaked = newPhoto;
     update();
   }
@@ -452,5 +451,110 @@ class LoginController extends GetxController {
       printError(info: 'Error upload image $e');
       throw Exception(e);
     }
+  }
+
+  // Recovery password
+  int? codeRecovery = 0;
+  String? emailError;
+  bool? enableEmailInput = false;
+
+  bool? isOtpMode = false;
+  bool? isSendEmailVer = false;
+
+  void validateInputEmail(String email) {
+    var emailV = validateEmail(email);
+    printInfo(info: 'SOy $emailV');
+    if (emailV) {
+      enableEmailInput = true;
+      update();
+    } else {
+      enableEmailInput = false;
+      update();
+    }
+  }
+
+  int generateCodeRandom() {
+    var codeAlt = Random().nextInt(8999) + 1000;
+
+    if (codeAlt.toString().length == 4 && !codeAlt.isNegative) {
+      return codeAlt;
+    } else {
+      var codeAlt2 = Random().nextInt(8999) + 1000;
+      return codeAlt2;
+    }
+  }
+
+  void validateEmailForRecovery(String email) async {
+    isSendEmailVer = true;
+    enableEmailInput = false;
+    update();
+    var codeGen = generateCodeRandom();
+    printInfo(info: 'El codigo es $codeGen');
+    var response = await getService.findEmailforRecovery(
+      email,
+      codeGen.toString(),
+    );
+    var respJson = jsonDecode(response.body);
+
+    if (!respJson['error']) {
+      isSendEmailVer = false;
+      isOtpMode = true;
+      codeRecovery = codeGen;
+      emailError = null;
+      update();
+    } else {
+      isSendEmailVer = false;
+      emailError = respJson['message'];
+      update();
+    }
+  }
+
+  bool? isRecoveryMode = false;
+  String? otpCodeError;
+
+  void compareOtpCode(String code) {
+    var compare = code.compareTo(codeRecovery!.toString());
+    printInfo(info: 'Se parecen? $compare');
+    if (compare == 0) {
+      isRecoveryMode = true;
+      otpCodeError = null;
+      update();
+    } else {
+      otpCodeError = 'Código incorrecto';
+      update();
+    }
+  }
+
+  bool? isResponseMode = false;
+  String? errorPasswordChange;
+
+  void changePassword(
+    String email,
+    String password,
+    String password2,
+  ) async {
+    var pass2Validator = comparePassword(password, password2);
+
+    if (pass2Validator) {
+      var responsePass = await getService.changePassword(email, password);
+      var respJsonPass = jsonDecode(responsePass.body);
+      printInfo(info: 'Combio $pass2Validator');
+      if (!respJsonPass['error']) {
+        errorPasswordChange = null;
+        isResponseMode = true;
+        update();
+      }
+    } else {
+      errorPasswordChange = 'Las contraseñas no coinciden';
+      update();
+    }
+  }
+
+  void initialSesion() {
+    isOtpMode = false;
+    isRecoveryMode = false;
+    isResponseMode = false;
+    update();
+    Get.off(() => const LoginPage());
   }
 }
