@@ -1,3 +1,4 @@
+import 'package:faal_new2/helps/modals.dart';
 import 'package:faal_new2/views/Login/login_page.dart';
 import 'package:faal_new2/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,12 @@ class _RecoveryPasswordPageState extends State<RecoveryPasswordPage> {
       builder: (_) {
         return WillPopScope(
           onWillPop: () async {
-            return false;
+            if (_.isOtpMode!) {
+              ModalsHelpers().modalCancelChangePassword();
+              return false;
+            } else {
+              return true;
+            }
           },
           child: Scaffold(
             body: SafeArea(

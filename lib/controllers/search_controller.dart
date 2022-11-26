@@ -57,7 +57,6 @@ class SearchController extends GetxController {
         if (resultSearch.statusCode == 201) {
           var products = jsonResponse;
           for (var i in products) {
-            printInfo(info: i['images'].toString());
             if (i != null) {
               listResult.add(
                 ProductModel(
@@ -103,22 +102,11 @@ class SearchController extends GetxController {
       listResult = [];
       update();
     }
-    // listResult = listProduct.where((element) {
-    //   return element.name.toLowerCase().contains(text.toLowerCase());
-    // }).toList();
-    // update();
   }
 
   // Upload Form controllers and variables
   var categoryList = <CategoryModel>[];
   var brandList = <BrandModel>[];
-
-  // var userInfo = Get.find<LoginController>();
-
-  // CategoryServices serviceCategoy = CategoryServices();
-  // BrandServices serviceBrand = BrandServices();
-  // ProductServices serviceProd = ProductServices();
-  // UploadService serviceUp = UploadService();
 
   final bool _isLoadingCategorys = true;
   bool? get isLoadingCategorys => _isLoadingCategorys;

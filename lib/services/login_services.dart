@@ -240,6 +240,7 @@ class LoginServices {
         },
       );
 
+      printError(info: response.toString());
       return response;
     } catch (err) {
       printError(info: err.toString());

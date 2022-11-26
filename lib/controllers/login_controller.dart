@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -134,25 +136,29 @@ class LoginController extends GetxController {
 
   // Login social
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Future<bool> loginWhitGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser!.authentication;
-  //     final OAuthCredential credential = GoogleAuthProvider.credential(
-  //       idToken: googleAuth.idToken,
-  //       accessToken: googleAuth.accessToken,
-  //     );
-  //     var result = await _auth.signInWithCredential(credential);
-  //     await validatingUserSocial(result.user!);
-  //     return result.user!.displayName == null ? false : true;
-  //   } catch (e) {
-  //     printError(info: e.toString());
-  //     return false;
-  //   }
-  // }
+  Future<bool> loginWhitGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
+      var result = await _auth.signInWithCredential(credential);
+      printInfo(info: 'Soy el user ${result.user}');
+      await validatingUserSocial(result.user!);
+      return result.user!.displayName == null ? false : true;
+    } catch (e) {
+      GoogleSignIn().signOut();
+      GoogleSignIn().disconnect();
+      printError(info: 'Google err ${e.toString()}');
+
+      return false;
+    }
+  }
 
   // Future<bool> loginwithFacebook() async {
   //   try {
@@ -204,27 +210,27 @@ class LoginController extends GetxController {
   //   }
   // }
 
-  // Future<bool> validatingUserSocial(User user) async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     var resopnse = await getService.loginSocial(
-  //       uid: user.uid,
-  //       name: user.displayName,
-  //       email: user.email,
-  //       photoURL: user.photoURL,
-  //     );
-  //     printInfo(info: user.toString());
-  //     var jsonResponse = jsonDecode(resopnse.body);
-  //     _accessTokenID = jsonResponse['access_token'];
-  //     prefs.setString('accessTokenID', _accessTokenID!);
-  //     validateUserInit(_accessTokenID!);
-  //     _isLoadingSocial = false;
-  //     update();
-  //     return true;
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
+  Future<bool> validatingUserSocial(User user) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var resopnse = await getService.loginSocial(
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      );
+      printInfo(info: user.toString());
+      var jsonResponse = jsonDecode(resopnse.body);
+      _accessTokenID = jsonResponse['access_token'];
+      prefs.setString('accessTokenID', _accessTokenID!);
+      validateUserInit(_accessTokenID!);
+      // _isLoadingSocial = false;
+      update();
+      return true;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   Future<bool> loginWithEmailAndPassword(String email, String password) async {
     _isLoading = true;
@@ -495,6 +501,8 @@ class LoginController extends GetxController {
       codeGen.toString(),
     );
     var respJson = jsonDecode(response.body);
+    printInfo(info: respJson.toString());
+    printInfo(info: 'error? ${!respJson['error']}');
 
     if (!respJson['error']) {
       isSendEmailVer = false;

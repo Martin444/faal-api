@@ -70,4 +70,60 @@ class ModalsHelpers {
       ),
     );
   }
+
+  void modalCancelChangePassword() {
+    Get.dialog(
+      Dialog(
+        // color: Colors.white,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                '¿Querés cancelar el proceso de recuperación?',
+                style: titleSecundary,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      'No',
+                      style: titleProduct,
+                    ),
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Colors.black.withOpacity(0.1),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      Get.back();
+                    },
+                    child: Text(
+                      'Si',
+                      style: titleProduct,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

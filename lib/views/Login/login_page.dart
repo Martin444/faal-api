@@ -8,6 +8,7 @@ import '../../controllers/login_controller.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_styles.dart';
 import '../../widgets/button_primary.dart';
+import '../../widgets/button_secundary_iconed.dart';
 import '../../widgets/text_input_field.dart';
 import '../responses/wait_page.dart';
 
@@ -144,39 +145,44 @@ class _LoginPageState extends State<LoginPage> {
                     //     }
                     //   },
                     // ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    // ButtonSecondaryIcon(
-                    //   title: 'Continuar con Google',
-                    //   path: 'assets/google.svg',
-                    //   height: 25,
-                    //   onPressed: () async {
-                    //     var response = await _.loginWhitGoogle();
-                    //     if (response) {
-                    //       Get.back();
-                    //       Get.back();
-                    //     }
-                    //   },
-                    // ),
+
                     const Spacer(
                       flex: 3,
                     ),
                     const SizedBox(height: 40),
-                    ButtonPrimary(
-                      title: 'Entrar',
-                      onPressed: () async {
-                        var response = await _.loginWithEmailAndPassword(
-                          _emailController.text,
-                          _passwordController.text,
-                        );
-                        if (response) {
-                          Get.back();
-                          Get.back();
-                        }
-                      },
-                      load: _.isLoading!,
-                      disabled: _.isLoading!,
+                    Column(
+                      children: [
+                        // ButtonSecondaryIcon(
+                        //   title: 'Continuar con Google',
+                        //   path: 'assets/google.svg',
+                        //   isPro: false,
+                        //   onPressed: () async {
+                        //     var response = await _.loginWhitGoogle();
+                        //     if (response) {
+                        //       Get.back();
+                        //       Get.back();
+                        //     }
+                        //   },
+                        // ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ButtonPrimary(
+                          title: 'Entrar',
+                          onPressed: () async {
+                            var response = await _.loginWithEmailAndPassword(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                            if (response) {
+                              Get.back();
+                              Get.back();
+                            }
+                          },
+                          load: _.isLoading!,
+                          disabled: _.isLoading!,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                   ],
