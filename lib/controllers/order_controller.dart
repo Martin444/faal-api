@@ -152,7 +152,6 @@ class OrderController extends GetxController {
           if (jsonResponse['status'] == 'ok') {
             Get.off(() => SuccesOrderPage(order: newOrderID));
           } else {
-            printInfo(info: 'Esta es la respuesta ${jsonResponse}');
             proccessCheckout(jsonResponse['prefenceID']['id']);
           }
         } else if (response.statusCode == 500) {

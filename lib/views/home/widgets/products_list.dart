@@ -33,7 +33,7 @@ class _ProductsListState extends State<ProductsList> {
         return Column(
           children: [
             const TitleLine(title: 'DESTACADOS'),
-            CategoryFlag(),
+            const CategoryFlag(),
 
             const SizedBox(
               height: 10,

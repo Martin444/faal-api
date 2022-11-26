@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../Models/notifications_model.dart';
-import '../../../helps/rules.dart';
 import '../../../utils/styles_context.dart';
 
+// ignore: must_be_immutable
 class HistoryCard extends StatelessWidget {
   NotificationsModels model;
   int? length;
@@ -81,7 +81,7 @@ class Dashes extends StatelessWidget {
                   height: dashHeight,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Color(0xff8F959A).withOpacity(0.7),
+                      color: const Color(0xff8F959A).withOpacity(0.7),
                     ),
                   ),
                 );

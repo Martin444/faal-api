@@ -9,6 +9,7 @@ import '../../utils/text_styles.dart';
 import '../../widgets/button_primary.dart';
 import '../Payments/Order/widget/pr_tile.dart';
 
+// ignore: must_be_immutable
 class OrderDetailPage extends StatefulWidget {
   OrderModel orderDetail;
   OrderDetailPage({

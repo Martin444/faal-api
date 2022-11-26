@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import '../../utils/styles_context.dart';
 import '../../utils/text_styles.dart';
 
+// ignore: must_be_immutable
 class ProductDetail extends StatefulWidget {
   ProductModel model;
   ProductDetail({

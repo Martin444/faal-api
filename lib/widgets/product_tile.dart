@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../Models/product_model.dart';
 import '../controllers/cart_list_controller.dart';
-import '../helps/capitalize.dart';
 import '../helps/rules.dart';
 import '../utils/colors.dart';
 import '../utils/text_styles.dart';
@@ -25,7 +24,6 @@ class ProductTile extends StatefulWidget {
 class _ProductTileState extends State<ProductTile> {
   @override
   Widget build(BuildContext context) {
-    var helpCap = Capitalization();
     var helpRules = RulesFunctions();
 
     return Stack(

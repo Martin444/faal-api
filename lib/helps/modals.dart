@@ -1,4 +1,3 @@
-import 'package:faal_new2/utils/colors.dart';
 import 'package:faal_new2/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

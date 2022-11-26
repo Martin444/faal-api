@@ -1,6 +1,5 @@
 import 'package:faal_new2/controllers/navigations_controller.dart';
 import 'package:faal_new2/utils/text_styles.dart';
-import 'package:faal_new2/views/home/home_page.dart';
 import 'package:faal_new2/views/orders/widgets/list_orders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -7,6 +7,7 @@ import '../../../helps/rules.dart';
 import '../../../utils/styles_context.dart';
 import '../order_details.dart';
 
+// ignore: must_be_immutable
 class CardOrder extends StatelessWidget {
   OrderModel model;
 
@@ -138,7 +139,7 @@ class Dashes extends StatelessWidget {
                   height: dashHeight,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Color(0xff8F959A).withOpacity(0.7),
+                      color: const Color(0xff8F959A).withOpacity(0.7),
                     ),
                   ),
                 );

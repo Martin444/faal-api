@@ -33,6 +33,7 @@ class AddressController extends GetxController {
         }
       }
       Position position = await Geolocator.getCurrentPosition();
+      // ignore: unnecessary_null_comparison
       if (position != null) {
         printInfo(info: position.toString());
         addressLocation = LatLng(position.latitude, position.longitude);
@@ -121,6 +122,7 @@ class AddressController extends GetxController {
       getMyLocation = true;
       // update();
       Position position = await Geolocator.getCurrentPosition();
+      // ignore: unnecessary_null_comparison
       if (position != null) {
         addressLocation = LatLng(position.latitude, position.longitude);
         var mydetail = await addressService.searchDetailsOneLocation(

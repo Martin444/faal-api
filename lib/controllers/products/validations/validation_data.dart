@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 import '../../../Models/product_model.dart';
 
 class ValidationData {

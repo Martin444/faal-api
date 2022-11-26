@@ -1,10 +1,8 @@
 import 'package:faal_new2/views/responses/wait_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/address_controller.dart';
-import '../../../utils/colors.dart';
 import '../../../utils/styles_context.dart';
 import '../../../utils/text_styles.dart';
 import '../../../widgets/anim/delayed_reveal.dart';

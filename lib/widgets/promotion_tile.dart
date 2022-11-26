@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Models/product_model.dart';
-import '../helps/modals.dart';
 import '../utils/colors.dart';
 import '../utils/text_styles.dart';
 import '../views/home/product_detail.dart';

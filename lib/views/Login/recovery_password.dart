@@ -1,5 +1,4 @@
 import 'package:faal_new2/helps/modals.dart';
-import 'package:faal_new2/views/Login/login_page.dart';
 import 'package:faal_new2/widgets/anim/delayed_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

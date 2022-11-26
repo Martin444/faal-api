@@ -323,7 +323,7 @@ class LoginController extends GetxController {
     if (emailValidator && passValidator) {
       if (pass2Validator) {
         try {
-          var urlImage;
+          dynamic urlImage;
           if (_photoProfile != null) {
             urlImage = await addPhotoServer(_photoProfile!);
           } else {

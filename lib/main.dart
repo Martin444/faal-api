@@ -16,7 +16,6 @@ import 'controllers/products/products_controller.dart';
 import 'controllers/scroll_controllers.dart';
 import 'controllers/search_controller.dart';
 import 'controllers/upload_controller.dart';
-import 'views/home/home_page.dart';
 
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();

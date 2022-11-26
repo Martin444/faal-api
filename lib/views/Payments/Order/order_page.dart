@@ -24,6 +24,7 @@ class _OrderPageState extends State<OrderPage> {
   final eventResponse = const EventChannel('faal.martinfarel.com/response');
   var orderproces = Get.find<OrderController>();
 
+  // ignore: unused_field
   StreamSubscription? _suscriptiomStream;
 
   @override

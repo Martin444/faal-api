@@ -23,11 +23,9 @@ class _ListAddresState extends State<ListAddres> {
           if (_.myAddresses.isEmpty) {
             return SizedBox(
               height: Get.height * 0.44,
-              child: Container(
-                child: Text(
-                  'Aun no haz agregado ninguna dirección',
-                  style: titleAppBar,
-                ),
+              child: Text(
+                'Aun no haz agregado ninguna dirección',
+                style: titleAppBar,
               ),
             );
           }
