@@ -16,4 +16,15 @@ class CategoryServices {
       throw Exception(e);
     }
   }
+
+  Future<http.Response> getCategorysWithID(int id) async {
+    try {
+      var url = Uri.parse('$baseUrl/categories/detail/$id');
+      var response = await http.get(url);
+      return response;
+    } catch (e) {
+      printError(info: e.toString());
+      throw Exception(e);
+    }
+  }
 }

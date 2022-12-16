@@ -513,6 +513,7 @@ class LoginController extends GetxController {
     } else {
       isSendEmailVer = false;
       emailError = respJson['message'];
+      enableEmailInput = true;
       update();
     }
   }

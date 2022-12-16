@@ -1,3 +1,5 @@
+import 'package:faal_new2/controllers/categories_controller.dart';
+import 'package:faal_new2/views/categorie/widget/category_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -20,10 +22,12 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   var prodController = Get.find<ProductsController>();
+  var cateController = Get.find<CategoriesController>();
 
   @override
   void initState() {
     prodController.getProductsByCategory(widget.result!.id!);
+    cateController.getCategoryByID(widget.result!.subCategorieID!);
     super.initState();
   }
 
@@ -71,6 +75,36 @@ class _ResultPageState extends State<ResultPage> {
                   const SizedBox(
                     height: 10,
                   ),
+                  widget.result!.subCategorie!
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Otras categorias',
+                              style: titlePromotionProduct,
+                              textAlign: TextAlign.left,
+                            ),
+                            GetBuilder<CategoriesController>(
+                              builder: (_) {
+                                if (_.parentCategorie != null) {
+                                  return CategoryTile(
+                                    model: _.parentCategorie!,
+                                    isSubCat: true,
+                                  );
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     'Resultados',
                     style: titlePromotionProduct,
@@ -79,7 +113,9 @@ class _ResultPageState extends State<ResultPage> {
                     height: 20,
                   ),
                   SizedBox(
-                    height: Get.height * 0.8,
+                    height: widget.result!.subCategorie!
+                        ? Get.height * 0.73
+                        : Get.height * 0.82,
                     child: GridView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: _.productbyCategorie.length,

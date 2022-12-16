@@ -34,7 +34,6 @@ class ProductsController extends GetxController {
 
   Future<List<ProductModel>> getProductsPage(int? page) async {
     try {
-      printInfo(info: page.toString());
       var response = await ProductServices().getProducts(page: page);
       var jsonResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
@@ -121,7 +120,6 @@ class ProductsController extends GetxController {
         productbyRelationated = [];
         update();
         productbyRelationated = validation.validateProducts(jsonResponse);
-        printInfo(info: productbyRelationated.toString());
         loadRelationatesProduct = false;
         update();
         return promotionsList;

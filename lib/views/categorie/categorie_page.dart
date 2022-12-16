@@ -80,6 +80,7 @@ class _CategoriePageState extends State<CategoriePage> {
                         itemCount: _.categoryList.length,
                         itemBuilder: (context, index) => CategoryTile(
                           model: _.categoryList[index],
+                          isSubCat: false,
                         ),
                       ),
                     ),
